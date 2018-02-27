@@ -5,6 +5,7 @@ import { CandidatesRoutingModule, candidatesRouterComponent } from './candidates
 import { CandidateComponent } from './candidate-list/candidate/candidate.component';
 import { CandidateService } from './service/candidate.service';
 import { CandidateControllerService } from '../api/services/candidate-controller.service';
+import { CandidateFormComponent } from './candidate-list/candidate-form/candidate-form.component';
 
 @NgModule({
   imports: [
@@ -14,7 +15,9 @@ import { CandidateControllerService } from '../api/services/candidate-controller
   declarations: [
     candidatesRouterComponent,
     CandidateListComponent,
-    CandidateComponent],
+    CandidateComponent,
+    CandidateFormComponent
+  ],
   providers: [
     CandidateControllerService,
     CandidateService

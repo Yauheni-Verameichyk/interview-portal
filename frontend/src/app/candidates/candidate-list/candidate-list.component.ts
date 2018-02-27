@@ -13,6 +13,7 @@ export class CandidateListComponent implements OnInit, OnDestroy {
   private readonly unsubscribe: Subject<void> = new Subject();
   candidateList: Array<CandidateDTO> = new Array<CandidateDTO>();
   showButtonLoad: boolean = true;
+  showForm: boolean = false;
 
   constructor(private candidateControllerService: CandidateControllerService) { }
 
@@ -43,6 +44,10 @@ export class CandidateListComponent implements OnInit, OnDestroy {
         error => {
           console.log(`Error in candidates list component typy error: ${error}`)
         });
+  }
+
+  displayForm() {
+    this.showForm = !this.showForm;
   }
 
   ngOnDestroy(): void {
