@@ -2,13 +2,13 @@
 
 export class WorkCandidate {
 
-  dateEnd?: string;
+  endDate?: string;
 
-  dateStart?: string;
+  startDate?: string;
 
   id?: number;
 
-  nameCompany?: string;
+  companyName?: string;
 
   position?: string;
 }

@@ -1,8 +1,5 @@
-
 <br>
-<table class="candidate-table table table-hover table-bordered "
-  [ngClass]="{'disableTable': showForm}"
->
+<table class="candidate-table table table-hover table-bordered " [ngClass]="{'disable-table': showForm}">
   <thead class="thead-light">
     <th scope="col">Name</th>
     <th scope="col">Surname</th>
@@ -19,16 +16,9 @@
   </tbody>
 </table>
 <div class="load-button">
-  <button 
-    *ngIf="showButtonLoad"
-    (click)="windowScrollListener()"
-    class="btn btn-outline-info"
-  >
+  <button *ngIf="showButtonLoad" (click)="windowScrollListener()" class="btn btn-outline-info">
     Load more
   </button>
 </div>
-<app-candidate-form 
-  (displayForm)="displayForm()"
-  *ngIf="showForm"
->
+<app-candidate-form (displayForm)="displayForm()" *ngIf="showForm">
 </app-candidate-form>

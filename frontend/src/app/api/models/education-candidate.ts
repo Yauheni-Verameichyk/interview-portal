@@ -1,8 +1,8 @@
 export class EducationCandidate {
 
-  dateEnd?: string;
+  endDate?: string;
 
-  dateStart?: string;
+  startDate?: string;
 
   id?: number;
 

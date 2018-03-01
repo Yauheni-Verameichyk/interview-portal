@@ -45,9 +45,8 @@ export class CandidateFormComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy)
       .subscribe((disciplines) => {
         this.disciplines = disciplines;
-      }, (error) => {
-        console.log('Send to error page when it appears');
-      });
+      }, error => console.log('Send to error page when it appears')
+      );
   }
 
   initCandidateForm(): void {
@@ -97,7 +96,7 @@ export class CandidateFormComponent implements OnInit, OnDestroy {
         .subscribe(body => {
           this.viewMessage = this.candidateService.messageSuccessfully;
           this.displayMessage = true;
-        },(error: any)=> {
+        }, (error: any) => {
           this.viewMessage = this.candidateService.messageNotSuccessfully;
           this.displayMessage = true;
         });
