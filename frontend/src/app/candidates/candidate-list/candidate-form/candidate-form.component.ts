@@ -16,7 +16,7 @@ import { DisciplineControllerService } from '../../../api/services';
 export class CandidateFormComponent implements OnInit, OnDestroy {
 
   @Output() displayForm = new EventEmitter();
-  public candidate: Candidate = new Candidate();
+  candidate: Candidate = new Candidate();
   public candidateForm: FormGroup;
   public disciplines: Discipline[];
   public displayErrorMessage: boolean = false;
