@@ -6,7 +6,7 @@
                 <div class="form-group col-md-4">
                     <label for="Name">Name </label>
                     <input name="name" type="text" class="form-control" id="Name" placeholder="Name" formControlName="name" required>
-                    <div *ngIf="name.invalid && name.touched" class="errorMessage">
+                    <div *ngIf="name.invalid && name.touched" class="error-message">
                         <div *ngIf="name.errors.required">
                             Name is required.
                         </div>
@@ -63,7 +63,7 @@
                 <tr *ngFor="let education of candidateForm.controls.educationCandidateList.controls; let i = index" [formGroupName]="i">
                     <td>
                         <input class="col-md-12" type="text" formControlName="nameInstitution">
-                        <div *ngIf="education.controls.nameInstitution.invalid && education.controls.nameInstitution.touched" class="errorMessage">
+                        <div *ngIf="education.controls.nameInstitution.invalid && education.controls.nameInstitution.touched" class="error-message">
                             <div *ngIf="education.controls.nameInstitution.errors.required">
                                 The name of the institution is required.
                             </div>
@@ -77,7 +77,7 @@
                     </td>
                     <td>
                         <input class="col-md-12" type="text" formControlName="profession">
-                        <div *ngIf="education.controls.profession.invalid && education.controls.profession.touched" class="errorMessage">
+                        <div *ngIf="education.controls.profession.invalid && education.controls.profession.touched" class="error-message">
                             <div *ngIf="education.controls.profession.errors.required">
                                 The name of the institution is required.
                             </div>
@@ -91,7 +91,7 @@
                     </td>
                     <td>
                         <input class="col-md-12" type="date" formControlName="dateStart" max="{education.controls.dateEnd.value}}">
-                        <div *ngIf="education.controls.dateStart.invalid && education.controls.dateStart.touched" class="errorMessage">
+                        <div *ngIf="education.controls.dateStart.invalid && education.controls.dateStart.touched" class="error-message">
                             <div *ngIf="education.controls.dateStart.errors.required">
                                 Start date is required.
                             </div>
@@ -102,7 +102,7 @@
                     </td>
                     <td>
                         <input class="col-md-12" type="date" formControlName="dateEnd" min="{{education.controls.dateStart.value}}">
-                        <div *ngIf="education.controls.dateEnd.invalid && education.controls.dateEnd.touched" class="errorMessage">
+                        <div *ngIf="education.controls.dateEnd.invalid && education.controls.dateEnd.touched" class="error-message">
                             <div *ngIf="education.controls.dateEnd.errors.required">
                                 Finish date is required.
                             </div>
@@ -139,7 +139,7 @@
                 <tr *ngFor="let work of candidateForm.controls.workCandidateList.controls; let i = index" [formGroupName]="i">
                     <td>
                         <input class="col-md-12" type="text" formControlName="nameCompany">
-                        <div *ngIf="work.controls.nameCompany.invalid && work.controls.nameCompany.touched" class="errorMessage">
+                        <div *ngIf="work.controls.nameCompany.invalid && work.controls.nameCompany.touched" class="error-message">
                             <div *ngIf="work.controls.nameCompany.errors.required">
                                 Name company is required.
                             </div>
@@ -153,7 +153,7 @@
                     </td>
                     <td>
                         <input class="col-md-12" type="text" formControlName="position">
-                        <div *ngIf="work.controls.position.invalid && work.controls.position.touched" class="errorMessage">
+                        <div *ngIf="work.controls.position.invalid && work.controls.position.touched" class="error-message">
                             <div *ngIf="work.controls.position.errors.required">
                                 Position is required.
                             </div>
@@ -167,7 +167,7 @@
                     </td>
                     <td>
                         <input class="col-md-12" type="date" formControlName="dateStart" max="{{work.controls.dateEnd.value}}">
-                        <div *ngIf="work.controls.dateStart.invalid && work.controls.dateStart.touched" class="errorMessage">
+                        <div *ngIf="work.controls.dateStart.invalid && work.controls.dateStart.touched" class="error-message">
                             <div *ngIf="work.controls.dateStart.errors.required">
                                 Start date is required.
                             </div>
@@ -178,7 +178,7 @@
                     </td>
                     <td>
                         <input class="col-md-12" type="date" formControlName="dateEnd" min="{{work.controls.dateStart.value}}">
-                        <div *ngIf="work.controls.dateEnd.invalid && work.controls.dateEnd.touched" class="errorMessage">
+                        <div *ngIf="work.controls.dateEnd.invalid && work.controls.dateEnd.touched" class="error-message">
                             <div *ngIf="work.controls.dateEnd.errors.required">
                                 Finish date is required.
                             </div>
@@ -213,7 +213,7 @@
                     <div class="btn btn-light pull-right" (click)="remove(i,'disciplineList')" *ngIf="candidateForm.controls.disciplineList.controls.length > 1">
                         <img class="far fa-trash-alt align-middle" />
                     </div><br><br>
-                    <div *ngIf="discipline.controls.id.invalid && discipline.controls.id.touched" class="errorMessage">
+                    <div *ngIf="discipline.controls.id.invalid && discipline.controls.id.touched" class="error-message">
                         <div *ngIf="discipline.controls.id.errors.required">
                             Discipline not selected!!!
                         </div>
@@ -230,7 +230,7 @@
             <a class="btn btn-secondary" (click)="change()">Close</a>
             <br>
             <br>
-            <span *ngIf="displayErrorMessage" class="errorMessage">Fill in all the fields</span>
+            <span *ngIf="displayErrorMessage" class="error-message">Fill in all the fields</span>
         </div>
     </form>
 </div>
