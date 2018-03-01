@@ -2,11 +2,39 @@
     z-index: 900;
     top: 55px;
     background-color: white;
-    position: fixed;
+    position: absolute;
     left: 50%;
     transform: translate(-50%);
     min-width: 800px;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
+table input {
+    border-color: gainsboro;
+    border-width: 2px;
+}
 
+input.ng-touched.ng-invalid{
+    border-color: rgb(255, 113, 113);
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+select.ng-touched.ng-invalid{
+    border-color: rgb(255, 113, 113);
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+.errorMessage {
+    color: brown;
+    padding: 10px;
+    font-size:14px;
+}
+
+sup {
+    color: rgb(255, 0, 0);
+}
+
+select {
+    float: left;
+    width: 92%;
+}

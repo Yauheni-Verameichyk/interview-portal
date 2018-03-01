@@ -6,11 +6,17 @@ import { CandidateComponent } from './candidate-list/candidate/candidate.compone
 import { CandidateService } from './service/candidate.service';
 import { CandidateControllerService } from '../api/services/candidate-controller.service';
 import { CandidateFormComponent } from './candidate-list/candidate-form/candidate-form.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MessageModule } from '../message/message.module';
+import { MessageWindowComponent } from '../message/message-window/message-window.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    CandidatesRoutingModule
+    CandidatesRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MessageModule
   ],
   declarations: [
     candidatesRouterComponent,

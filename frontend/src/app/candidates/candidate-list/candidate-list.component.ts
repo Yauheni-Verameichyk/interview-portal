@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CandidateDTO } from '../../api/models/candidate-dto';
 import { CandidateControllerService } from '../../api/services/candidate-controller.service';
-import { Subject } from 'rxjs';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-candidate-list',

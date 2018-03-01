@@ -1,114 +1,237 @@
-<main>
-  <div class='border candidateForm'>
-      <div>
-          <h1>Add Candidate</h1>
-          <div class="form-row">
-              <div class="form-group col-md-3">
-                  <label for="inputEmail4">Email</label>
-                  <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-              </div>
-              <div class="form-group col-md-3">
-                  <label for="Name">Name</label>
-                  <input type="text" class="form-control" id="Name" placeholder="Name">
-              </div>
-              <div class="form-group col-md-3">
-                  <label for="SurName">SurName</label>
-                  <input type="text" class="form-control" id="SurName" placeholder="SurName">
-              </div>
-              <div class="form-group col-md-3">
-                  <label for="Phone">Phone</label>
-                  <input type="text" class="form-control" id="Phone" placeholder="Phone">
-              </div>
-          </div>
-      </div>
-      <table class="table user-table ">
-          <caption>Education</caption>
-          <thead>
-              <tr>
-                  <th scope="col">The name of the institution </th>
-                  <th scope="col">Profession</th>
-                  <th scope="col">Start date</th>
-                  <th scope="col">End date</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr>
-                  <td>
-                      <input class="col-md-12" type="text">
-                  </td>
-                  <td>
-                      <input class="col-md-12" type="text">
-                  </td>
-                  <td>
-                      <input class="col-md-12" type="text">
-                  </td>
-                  <td>
-                      <input class="col-md-12" type="text">
-                  </td>
-              </tr>
-          </tbody>
-      </table>
-      <div class="addNews">
-          <button>
-              Add Education
-          </button>
-      </div>
-      <table class="table user-table">
-          <caption>Work history</caption>
-          <thead>
-              <tr>
-                  <th scope="col">Company name</th>
-                  <th scope="col">Position</th>
-                  <th scope="col">Start date</th>
-                  <th scope="col">End date</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr>
-                  <td>
-                      <input class="col-md-12" type="text">
-                  </td>
-                  <td>
-                      <input class="col-md-12" type="text">
-                  </td>
-                  <td>
-                      <input class="col-md-12" type="text">
-                  </td>
-                  <td>
-                      <input class="col-md-12" type="text">
-                  </td>
-              </tr>
-          </tbody>
-      </table>
-      <div class="addNews">
-          <button>
-              Add work
-          </button>
-      </div>
-      <div>
-          <h3>
-              Choose discipline
-          </h3>
-          <div class='selectDisciplines'>
-              <div>
-                  <select id="inputState" class="form-control col-md-12">
-                      <option selected>Choose...</option>
-                      <option>Mark Otto</option>
-                      <option>Jacob Thornton</option>
-                      <option>Larry the Bird</option>
-                      <option>Mark Otto</option>
-                  </select>
-
-              </div>
-          </div>
-          <div class="btn btn-light col-md-12">
-              <a class="fas fa-plus align-middle"></a>
-              Assign to the additional discipline
-          </div>
-      </div>
-      <div class="text-center add-candidates" (click)="change()">
-          <a class="btn btn-primary">Add Candidate</a>
-          <a class="btn btn-secondary">Close</a>
-      </div>
-  </div>
-</main>
+<div class='border candidateForm' *ngIf="!displayMessage">
+    <form [formGroup]="candidateForm">
+        <div>
+            <h1>Add Candidate</h1>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="Name">Name </label>
+                    <input name="name" type="text" class="form-control" id="Name" placeholder="Name" formControlName="name" required>
+                    <div *ngIf="name.invalid && name.touched" class="errorMessage">
+                        <div *ngIf="name.errors.required">
+                            Name is required.
+                        </div>
+                        <div *ngIf="name.errors.minlength">
+                            Name must be at least 4 characters long.
+                        </div>
+                        <div *ngIf="name.errors.maxlength">
+                            Name must be at most 200 characters long.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="SurName">SurName
+                    </label>
+                    <input type="text" class="form-control" id="SurName" placeholder="SurName" formControlName="surname">
+                    <div *ngIf="surname.invalid && surname.touched" class="errorMessage">
+                        <div *ngIf="surname.errors.required">
+                            SurName is required.
+                        </div>
+                        <div *ngIf="surname.errors.minlength">
+                            SurName must be at least 4 characters long.
+                        </div>
+                        <div *ngIf="surname.errors.maxlength">
+                            SurName must be at most 200 characters long.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="Phone">Phone </label>
+                    <input type="text" class="form-control" id="Phone" placeholder="Phone" formControlName="phoneNumber">
+                    <div *ngIf="phone.invalid && phone.touched" class="errorMessage">
+                        <div *ngIf="phone.errors.required">
+                            Phone number is required.
+                        </div>
+                        <div *ngIf="phone.errors.pattern">
+                            Phone number must compose only number(at least 7 characters long).
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table class="table user-table" formArrayName="educationCandidateList">
+            <caption>Education</caption>
+            <thead>
+                <tr>
+                    <th scope="col">The name of the institution </th>
+                    <th scope="col">Profession</th>
+                    <th scope="col">Start date</th>
+                    <th scope="col">End date</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let education of candidateForm.controls.educationCandidateList.controls; let i = index" [formGroupName]="i">
+                    <td>
+                        <input class="col-md-12" type="text" formControlName="nameInstitution">
+                        <div *ngIf="education.controls.nameInstitution.invalid && education.controls.nameInstitution.touched" class="errorMessage">
+                            <div *ngIf="education.controls.nameInstitution.errors.required">
+                                The name of the institution is required.
+                            </div>
+                            <div *ngIf="education.controls.nameInstitution.errors.minlength">
+                                The name of the institution be at least 4 characters long.
+                            </div>
+                            <div *ngIf="education.controls.nameInstitution.errors.maxlength">
+                                The name of the institution be at most 200 characters long.
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <input class="col-md-12" type="text" formControlName="profession">
+                        <div *ngIf="education.controls.profession.invalid && education.controls.profession.touched" class="errorMessage">
+                            <div *ngIf="education.controls.profession.errors.required">
+                                The name of the institution is required.
+                            </div>
+                            <div *ngIf="education.controls.profession.errors.minlength">
+                                The name of the institution be at least 4 characters long.
+                            </div>
+                            <div *ngIf="education.controls.profession.errors.maxlength">
+                                The name of the institution be at most 200 characters long.
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <input class="col-md-12" type="date" formControlName="dateStart" max="{education.controls.dateEnd.value}}">
+                        <div *ngIf="education.controls.dateStart.invalid && education.controls.dateStart.touched" class="errorMessage">
+                            <div *ngIf="education.controls.dateStart.errors.required">
+                                Start date is required.
+                            </div>
+                            <div *ngIf="education.controls.dateStart.errors.pattern">
+                                Invalid Start date!
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <input class="col-md-12" type="date" formControlName="dateEnd" min="{{education.controls.dateStart.value}}">
+                        <div *ngIf="education.controls.dateEnd.invalid && education.controls.dateEnd.touched" class="errorMessage">
+                            <div *ngIf="education.controls.dateEnd.errors.required">
+                                Finish date is required.
+                            </div>
+                            <div *ngIf="education.controls.dateEnd.errors.pattern">
+                                Finish Start date!
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="btn btn-light pull-right" (click)="remove(i, 'educationCandidateList')">
+                            <img class="far fa-trash-alt align-middle" />
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="addNews">
+            <button (click)="additionEducation()">
+                Add Education
+            </button>
+        </div>
+        <table class="table user-table" formArrayName="workCandidateList">
+            <caption>Work history</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Company name</th>
+                    <th scope="col">Position</th>
+                    <th scope="col">Start date</th>
+                    <th scope="col">End date</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let work of candidateForm.controls.workCandidateList.controls; let i = index" [formGroupName]="i">
+                    <td>
+                        <input class="col-md-12" type="text" formControlName="nameCompany">
+                        <div *ngIf="work.controls.nameCompany.invalid && work.controls.nameCompany.touched" class="errorMessage">
+                            <div *ngIf="work.controls.nameCompany.errors.required">
+                                Name company is required.
+                            </div>
+                            <div *ngIf="work.controls.nameCompany.errors.minlength">
+                                Name company be at least 4 characters long.
+                            </div>
+                            <div *ngIf="work.controls.nameCompany.errors.maxlength">
+                                Name company be at most 200 characters long.
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <input class="col-md-12" type="text" formControlName="position">
+                        <div *ngIf="work.controls.position.invalid && work.controls.position.touched" class="errorMessage">
+                            <div *ngIf="work.controls.position.errors.required">
+                                Position is required.
+                            </div>
+                            <div *ngIf="work.controls.position.errors.minlength">
+                                Position be at least 4 characters long.
+                            </div>
+                            <div *ngIf="work.controls.position.errors.maxlength">
+                                Position be at most 200 characters long.
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <input class="col-md-12" type="date" formControlName="dateStart" max="{{work.controls.dateEnd.value}}">
+                        <div *ngIf="work.controls.dateStart.invalid && work.controls.dateStart.touched" class="errorMessage">
+                            <div *ngIf="work.controls.dateStart.errors.required">
+                                Start date is required.
+                            </div>
+                            <div *ngIf="work.controls.dateStart.errors.pattern">
+                                Invalid Start date!
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <input class="col-md-12" type="date" formControlName="dateEnd" min="{{work.controls.dateStart.value}}">
+                        <div *ngIf="work.controls.dateEnd.invalid && work.controls.dateEnd.touched" class="errorMessage">
+                            <div *ngIf="work.controls.dateEnd.errors.required">
+                                Finish date is required.
+                            </div>
+                            <div *ngIf="work.controls.dateEnd.errors.pattern">
+                                Invalid Finish date!
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="btn btn-light pull-right" (click)="remove(i, 'workCandidateList')">
+                            <img class="far fa-trash-alt align-middle" />
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="addNews">
+            <button (click)="additionWork()">
+                Add work
+            </button>
+        </div>
+        <div>
+            <h3>
+                Choose discipline
+            </h3>
+            <div formArrayName="disciplineList">
+                <div class='selectDisciplines' *ngFor="let discipline of candidateForm.controls.disciplineList.controls; let i = index" [formGroupName]="i">
+                    <select id="inputState" class="form-control " formControlName="id" value="1">
+                        <option value="" hidden disabled selected>Choose...</option>
+                        <option *ngFor="let dis of disciplines" value="{{dis.id}}" selected>{{dis.name}}</option>
+                    </select>
+                    <div class="btn btn-light pull-right" (click)="remove(i,'disciplineList')" *ngIf="candidateForm.controls.disciplineList.controls.length > 1">
+                        <img class="far fa-trash-alt align-middle" />
+                    </div><br><br>
+                    <div *ngIf="discipline.controls.id.invalid && discipline.controls.id.touched" class="errorMessage">
+                        <div *ngIf="discipline.controls.id.errors.required">
+                            Discipline not selected!!!
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="btn btn-light col-md-12" (click)="additionDiscipline()">
+                <a class="fas fa-plus align-middle"></a>
+                Assign to the additional discipline
+            </div>
+        </div>
+        <div class="text-center add-candidates">
+            <a class="btn btn-primary" (click)="createCandidate()">Add Candidate</a>
+            <a class="btn btn-secondary" (click)="change()">Close</a>
+            <br>
+            <br>
+            <span *ngIf="displayErrorMessage" class="errorMessage">Fill in all the fields</span>
+        </div>
+    </form>
+</div>
+<app-message-window *ngIf="displayMessage" [message]="viewMessage" (displayWindowMessage)="change()"></app-message-window>
