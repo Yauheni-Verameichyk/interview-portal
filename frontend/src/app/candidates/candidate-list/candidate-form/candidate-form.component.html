@@ -22,7 +22,7 @@
                     <label for="SurName">SurName
                     </label>
                     <input type="text" class="form-control" id="SurName" placeholder="SurName" formControlName="surname">
-                    <div *ngIf="surname.invalid && surname.touched" class="errorMessage">
+                    <div *ngIf="surname.invalid && surname.touched" class="error-message">
                         <div *ngIf="surname.errors.required">
                             SurName is required.
                         </div>
@@ -37,7 +37,7 @@
                 <div class="form-group col-md-4">
                     <label for="Phone">Phone </label>
                     <input type="text" class="form-control" id="Phone" placeholder="Phone" formControlName="phoneNumber">
-                    <div *ngIf="phone.invalid && phone.touched" class="errorMessage">
+                    <div *ngIf="phone.invalid && phone.touched" class="error-message">
                         <div *ngIf="phone.errors.required">
                             Phone number is required.
                         </div>
