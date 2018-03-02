@@ -21,9 +21,8 @@ import by.interview.portal.domain.UserRoleDiscipline;
 import by.interview.portal.dto.UserDTO;
 import by.interview.portal.repository.PermissionRepository;
 
-
-@Component("userConverter")
-public class UserConverter implements Converter<User, UserDTO> {
+@Component("userDTOConverter")
+public class UserDTOConverter implements Converter<User, UserDTO> {
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -37,6 +36,7 @@ public class UserConverter implements Converter<User, UserDTO> {
     @Override
     public User convertToEntity(UserDTO userDTO) {
         User user = modelMapper.map(userDTO, User.class);
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setUserRoleDisciplines(getUserRoleDisciplines(userDTO.getRoleDisciplines(), user));
         return user;
     }
@@ -76,8 +76,6 @@ public class UserConverter implements Converter<User, UserDTO> {
         return roleDisciplines;
     }
 
-
-
     private Set<String> getPermissionsSet(List<PermissionTemplate> permissionsTemplatesListList,
             Map<Role, List<Discipline>> roleDisciplinesMap) {
         Set<String> permissionsSet = new HashSet<>();
@@ -99,7 +97,8 @@ public class UserConverter implements Converter<User, UserDTO> {
             Map.Entry<Role, List<Discipline>> roleDisciplines, Set<String> permissionsSet) {
         Role role = roleDisciplines.getKey();
         if (permissionTemplate.getRoles().contains(role)) {
-            if (roleDisciplines.getValue() == null || roleDisciplines.getValue().isEmpty()) {
+            if (roleDisciplines.getValue() == null || roleDisciplines.getValue().isEmpty()
+                    || !permissionTemplate.isDisciplineNameRequired()) {
                 permissionsSet.add(generatePermission(permissionTemplate));
             } else {
                 for (Discipline discipline : roleDisciplines.getValue()) {
@@ -110,13 +109,15 @@ public class UserConverter implements Converter<User, UserDTO> {
     }
 
     private String generatePermission(PermissionTemplate permissionTemplate) {
-        return permissionTemplate.getName() + "_" + permissionTemplate.getOperation().toString();
+        return permissionTemplate.getName().getName() + "_"
+                + permissionTemplate.getOperation().getName();
     }
 
     private String generatePermission(PermissionTemplate permissionTemplate,
             Discipline discipline) {
-        return permissionTemplate.getName() + "_" + permissionTemplate.getOperation().toString()
-                + "_" + discipline.getName().toUpperCase().trim().replace(" ", "_");
+        return permissionTemplate.getName().getName() + "_"
+                + permissionTemplate.getOperation().getName() + "_"
+                + discipline.getName().toUpperCase().trim().replace(" ", "_");
     }
 
     private void addRoleDisciplinesToMap(Map<Role, List<Discipline>> roleDisciplines,

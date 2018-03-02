@@ -5,13 +5,14 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import by.interview.portal.dto.UserBaseInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import by.interview.portal.converter.Converter;
+import by.interview.portal.domain.Role;
 import by.interview.portal.domain.User;
+import by.interview.portal.dto.UserBaseInfoDTO;
 import by.interview.portal.dto.UserDTO;
 import by.interview.portal.facade.UserFacade;
 import by.interview.portal.service.UserService;
@@ -23,31 +24,37 @@ public class UserFacadeImpl implements UserFacade {
     private UserService userService;
 
     @Autowired
-    @Qualifier("userConverter")
-    private Converter<User, UserDTO> userConverter;
+    @Qualifier("userDTOConverter")
+    private Converter<User, UserDTO> userDTOConverter;
 
     @Override
     public List<UserDTO> findAll() {
         return userService.findAll().stream().filter(Objects::nonNull)
-                .map(userConverter::convertToDTO).collect(Collectors.toList());
+                .map(userDTOConverter::convertToDTO).collect(Collectors.toList());
     }
 
     @Override
     public void save(UserDTO userDTO) {
-        userService.save(userConverter.convertToEntity(userDTO));
+        userService.save(userDTOConverter.convertToEntity(userDTO));
     }
 
     @Override
     public Optional<UserDTO> findById(long userId) {
-        return userService.findById(userId).map(userConverter::convertToDTO);
+        return userService.findById(userId).map(userDTOConverter::convertToDTO);
+    }
+
+    @Override
+    public List<UserBaseInfoDTO> findAllByRole(Role role) {
+        return userService.findAllByRole(role).stream().filter(Objects::nonNull)
+                .map(userDTOConverter::convertToDTO).map(userDTO -> getUserBaseInfo(userDTO))
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<UserBaseInfoDTO> findAllUserBaseInfo() {
         return userService.findAll().stream().filter(Objects::nonNull)
-            .map(userConverter::convertToDTO)
-            .map(userDTO ->  getUserBaseInfo(userDTO))
-            .collect(Collectors.toList());
+                .map(userDTOConverter::convertToDTO).map(userDTO -> getUserBaseInfo(userDTO))
+                .collect(Collectors.toList());
     }
 
     private UserBaseInfoDTO getUserBaseInfo(UserDTO userDTO) {
