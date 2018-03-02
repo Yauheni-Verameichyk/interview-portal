@@ -48,6 +48,11 @@ export class CandidateListComponent implements OnInit, OnDestroy {
 
   displayForm() {
     this.showForm = !this.showForm;
+    if(this.showForm === false) {
+      this.candidateList =  new Array<CandidateDTO>();
+      this.loadCandidateList(0);
+      this.showButtonLoad = true;
+    }
   }
 
   ngOnDestroy(): void {

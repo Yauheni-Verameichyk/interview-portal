@@ -9,6 +9,9 @@ import { CandidateFormComponent } from './candidate-list/candidate-form/candidat
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MessageModule } from '../message/message.module';
 import { MessageWindowComponent } from '../message/message-window/message-window.component';
+import { EducationTableComponent } from './candidate-list/candidate-form/education-table/education-table.component';
+import { WorkTableComponent } from './candidate-list/candidate-form/work-table/work-table.component';
+import { DisciplineListComponent } from './candidate-list/candidate-form/discipline-list/discipline-list.component';
 
 @NgModule({
   imports: [
@@ -22,7 +25,10 @@ import { MessageWindowComponent } from '../message/message-window/message-window
     candidatesRouterComponent,
     CandidateListComponent,
     CandidateComponent,
-    CandidateFormComponent
+    CandidateFormComponent,
+    EducationTableComponent,
+    WorkTableComponent,
+    DisciplineListComponent
   ],
   providers: [
     CandidateControllerService,

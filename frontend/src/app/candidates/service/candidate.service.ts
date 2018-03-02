@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Candidate } from '../../api/models/candidate';
-import { FormGroup, FormArray, AbstractControl, ValidatorFn, Validators } from '@angular/forms';
+import { FormGroup, FormArray, AbstractControl, ValidatorFn, Validators, FormBuilder } from '@angular/forms';
 
 @Injectable()
 export class CandidateService {
@@ -8,11 +8,12 @@ export class CandidateService {
   readonly messageSuccessfully: string = "Candidate was successfully created !!!";
   readonly messageNotSuccessfully: string = "Could not create candidate! Try later!";
   readonly dateRegExp: RegExp = /[12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])/;
-  readonly phoneNumberRegExp: RegExp = /^(\d){7,}$/;
+  readonly phoneNumberRegExp: RegExp = /^[0-9\-\+]{7,15}$/;
+  
   readonly titleValidations: ValidatorFn[] = [Validators.required, Validators.minLength(4), Validators.maxLength(200)];
   readonly dateValidations: ValidatorFn[] = [Validators.required, Validators.pattern(this.dateRegExp)];
 
-  constructor() { }
+  constructor(private formBuilder: FormBuilder) { }
 
   createObject(formGroup: FormGroup): Candidate {
     const candidate: Candidate = new Candidate();
@@ -41,6 +42,50 @@ export class CandidateService {
   private checkField(controls: any) {
     Object.keys(controls)
       .forEach(controlName => controls[controlName].markAsTouched());
+  }
+
+  initCandidateForm(candidateForm: FormGroup): FormGroup {
+    return candidateForm = this.formBuilder.group({
+      name: ['', this.titleValidations],
+      surname: ['', this.titleValidations],
+      phoneNumber: ['', [
+        Validators.required,
+        Validators.pattern(this.phoneNumberRegExp),
+        Validators.minLength(3)
+      ]],
+      workCandidateList: this.formBuilder.array([this.initWorkForm()]),
+      educationCandidateList: this.formBuilder.array([this.initEducationForm()]),
+      disciplineList: this.formBuilder.array([this.initDisciplineForm()])
+    });
+  }
+
+  initDisciplineForm(): any {
+    return this.formBuilder.group({
+      id: ['', Validators.required]
+    });
+  }
+
+  initWorkForm() {
+    return this.formBuilder.group({
+      nameCompany: ['', this.titleValidations],
+      position: ['', this.titleValidations],
+      dateStart: ['', this.dateValidations],
+      dateEnd: ['', this.dateValidations]
+    });
+  }
+
+  initEducationForm() {
+    return this.formBuilder.group({
+      nameInstitution: ['', this.titleValidations],
+      profession: ['', this.titleValidations],
+      dateStart: ['', this.dateValidations],
+      dateEnd: ['', this.dateValidations]
+    });
+  }
+
+  removeRow(index: number, title: string, candidateForm: FormGroup) {
+    const control = <FormArray>candidateForm.controls[title];
+    control.removeAt(index);
   }
 
 }

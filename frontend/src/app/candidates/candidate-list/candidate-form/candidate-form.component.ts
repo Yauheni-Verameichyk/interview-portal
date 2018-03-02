@@ -18,7 +18,6 @@ export class CandidateFormComponent implements OnInit, OnDestroy {
   @Output() displayForm = new EventEmitter();
   candidate: Candidate = new Candidate();
   public candidateForm: FormGroup;
-  public disciplines: Discipline[];
   public displayErrorMessage: boolean = false;
   public displayMessage: boolean = false;
   public viewMessage: string;
@@ -26,8 +25,7 @@ export class CandidateFormComponent implements OnInit, OnDestroy {
 
   constructor(private formBuilder: FormBuilder,
     private candidateControllerService: CandidateControllerService,
-    private candidateService: CandidateService,
-    private disciplinesService: DisciplineControllerService) { }
+    private candidateService: CandidateService) { }
 
   get name() { return this.candidateForm.get('name') }
 
@@ -36,56 +34,7 @@ export class CandidateFormComponent implements OnInit, OnDestroy {
   get phone() { return this.candidateForm.get('phoneNumber') }
 
   ngOnInit(): void {
-    this.initCandidateForm();
-    this.fetchDisciplines();
-  }
-
-  fetchDisciplines(): any {
-    this.disciplinesService.findAllUsingGET()
-      .takeUntil(this.destroy)
-      .subscribe((disciplines) => {
-        this.disciplines = disciplines;
-      }, error => console.log('Send to error page when it appears')
-      );
-  }
-
-  initCandidateForm(): void {
-    this.candidateForm = this.formBuilder.group({
-      name: ['', this.candidateService.titleValidations],
-      surname: ['', this.candidateService.titleValidations],
-      phoneNumber: ['', [
-        Validators.required,
-        Validators.pattern(this.candidateService.phoneNumberRegExp),
-        Validators.minLength(3)
-      ]],
-      workCandidateList: this.formBuilder.array([this.initWorkForm()]),
-      educationCandidateList: this.formBuilder.array([this.initEducationForm()]),
-      disciplineList: this.formBuilder.array([this.initDisciplineForm()])
-    });
-  }
-
-  initWorkForm() {
-    return this.formBuilder.group({
-      nameCompany: ['', this.candidateService.titleValidations],
-      position: ['', this.candidateService.titleValidations],
-      dateStart: ['', this.candidateService.dateValidations],
-      dateEnd: ['', this.candidateService.dateValidations]
-    });
-  }
-
-  initEducationForm() {
-    return this.formBuilder.group({
-      nameInstitution: ['', this.candidateService.titleValidations],
-      profession: ['', this.candidateService.titleValidations],
-      dateStart: ['', this.candidateService.dateValidations],
-      dateEnd: ['', this.candidateService.dateValidations]
-    });
-  }
-
-  initDisciplineForm(): any {
-    return this.formBuilder.group({
-      id: ['', Validators.required]
-    });
+    this.candidateForm = this.candidateService.initCandidateForm(this.candidateForm);
   }
 
   createCandidate() {
@@ -104,27 +53,6 @@ export class CandidateFormComponent implements OnInit, OnDestroy {
       this.displayErrorMessage = true;
       this.candidateService.displayIncorrectField(this.candidateForm);
     }
-  }
-
-  remove(index: number, title: string) {
-    const control = <FormArray>this.candidateForm.controls[title];
-    control.removeAt(index);
-
-  }
-
-  additionWork(): void {
-    const control = <FormArray>this.candidateForm.controls['workCandidateList'];
-    control.push(this.initWorkForm());
-  }
-
-  additionEducation(): void {
-    const control = <FormArray>this.candidateForm.controls['educationCandidateList'];
-    control.push(this.initEducationForm());
-  }
-
-  additionDiscipline(): void {
-    const control = <FormArray>this.candidateForm.controls['disciplineList'];
-    control.push(this.initDisciplineForm());
   }
 
   change(): void {
