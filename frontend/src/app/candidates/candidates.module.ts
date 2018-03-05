@@ -7,12 +7,11 @@ import { CandidateService } from './service/candidate.service';
 import { CandidateControllerService } from '../api/services/candidate-controller.service';
 import { CandidateFormComponent } from './candidate-list/candidate-form/candidate-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MessageModule } from '../message/message.module';
-import { MessageWindowComponent } from '../message/message-window/message-window.component';
 import { EducationTableComponent } from './candidate-list/candidate-form/education-table/education-table.component';
 import { WorkTableComponent } from './candidate-list/candidate-form/work-table/work-table.component';
 import { DisciplineListComponent } from './candidate-list/candidate-form/discipline-list/discipline-list.component';
 import { SharedModule } from '../shared/shared.module';
+import { LightFieldService } from '../shared/validator/service/light-field.service';
 
 @NgModule({
   imports: [
@@ -20,7 +19,6 @@ import { SharedModule } from '../shared/shared.module';
     CandidatesRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    MessageModule,
     SharedModule
   ],
   declarations: [
