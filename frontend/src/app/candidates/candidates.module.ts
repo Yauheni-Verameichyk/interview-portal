@@ -11,7 +11,6 @@ import { EducationTableComponent } from './candidate-list/candidate-form/educati
 import { WorkTableComponent } from './candidate-list/candidate-form/work-table/work-table.component';
 import { DisciplineListComponent } from './candidate-list/candidate-form/discipline-list/discipline-list.component';
 import { SharedModule } from '../shared/shared.module';
-import { LightFieldService } from '../shared/validator/service/light-field.service';
 
 @NgModule({
   imports: [

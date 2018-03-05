@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Candidate } from '../../api/models/candidate';
 import { FormGroup, FormArray, AbstractControl, ValidatorFn, Validators, FormBuilder } from '@angular/forms';
 import { FormValidatorService } from '../../shared/validator/validator-form/form-validator.service';
-import { LightFieldService } from '../../shared/validator/lightfield-service/light-field.service';
+import { LightFieldService } from '../../shared/validator/service/light-field.service';
 
 @Injectable()
 export class CandidateService {
@@ -57,8 +57,8 @@ export class CandidateService {
     return this.formBuilder.group({
       nameCompany: ['', this.titleValidations],
       position: ['', this.titleValidations],
-      dateStart: ['',  this.dateValidations],
-      dateEnd: ['', this.dateValidations ]
+      dateStart: ['', this.dateValidations],
+      dateEnd: ['', this.dateValidations]
     });
   }
 
@@ -66,8 +66,8 @@ export class CandidateService {
     return this.formBuilder.group({
       nameInstitution: ['', this.titleValidations],
       profession: ['', this.titleValidations],
-      dateStart: ['', this.dateValidations ],
-      dateEnd: ['', this.dateValidations ]
+      dateStart: ['', this.dateValidations],
+      dateEnd: ['', this.dateValidations]
     });
   }
 

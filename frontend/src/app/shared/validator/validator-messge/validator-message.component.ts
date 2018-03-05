@@ -19,7 +19,7 @@ export class ValidatorMessageComponent {
       return false;
     }
     const errors = [];
-    let config = {
+    const config = {
       required: 'Field is required',
       requiredTrue: 'Value should be positive',
       email: 'Field should contain e-mail',
