@@ -24,8 +24,8 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@ToString(callSuper = true)
+@EqualsAndHashCode
+@ToString
 @Entity
 @Table(name = "candidates")
 public class Candidate extends Person {
@@ -54,26 +54,35 @@ public class Candidate extends Person {
         this.educationCandidateList = educationCandidateList;
     }
 
-    @Override public boolean equals(Object o) {
+    @Override
+    public boolean equals(Object o) {
         if (this == o)
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
         if (!super.equals(o))
             return false;
+
         Candidate candidate = (Candidate) o;
-        if (!disciplineList.equals(candidate.disciplineList))
+
+        if (disciplineList != null ? !disciplineList.equals(candidate.disciplineList)
+                : candidate.disciplineList != null)
             return false;
-        if (!workCandidateList.equals(candidate.workCandidateList))
+        if (workCandidateList != null ? !workCandidateList.equals(candidate.workCandidateList)
+                : candidate.workCandidateList != null)
             return false;
-        return educationCandidateList.equals(candidate.educationCandidateList);
+        return educationCandidateList != null
+                ? educationCandidateList.equals(candidate.educationCandidateList)
+                : candidate.educationCandidateList == null;
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + disciplineList.hashCode();
-        result = 31 * result + workCandidateList.hashCode();
-        result = 31 * result + educationCandidateList.hashCode();
+        result = 31 * result + (disciplineList != null ? disciplineList.hashCode() : 0);
+        result = 31 * result + (workCandidateList != null ? workCandidateList.hashCode() : 0);
+        result = 31 * result
+                + (educationCandidateList != null ? educationCandidateList.hashCode() : 0);
         return result;
     }
 }

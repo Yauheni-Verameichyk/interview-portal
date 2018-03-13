@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = { TestRepositoryConfig.class })
+@ContextConfiguration(classes = {TestRepositoryConfig.class})
 @Transactional
 public class CandidateRepositoryTest {
 
@@ -36,15 +36,13 @@ public class CandidateRepositoryTest {
         Discipline discipline = new Discipline(1L, "Java", "Best of the best language!!!", null);
         List<Discipline> disciplineList = new ArrayList<>();
         disciplineList.add(entityManager.merge(discipline));
-        Candidate candidate = new Candidate(5L, "Viktar", "Hrynko", "+12312312312",
-            disciplineList,
-            new ArrayList<WorkCandidate>(),
-            new ArrayList<EducationCandidate>());
+        Candidate candidate = new Candidate(5L, "Viktar", "Hrynko", "+12312312312", disciplineList,
+                new ArrayList<WorkCandidate>(), new ArrayList<EducationCandidate>());
         List<Candidate> candidateList = new ArrayList<>();
         candidateList.add(candidate);
         List<Candidate> newCandidateList = candidateRepository.findByDiscipline(discipline);
         Assert.assertTrue(newCandidateList.containsAll(candidateList));
-        Assert.assertTrue(candidateList.size()==newCandidateList.size());
+        Assert.assertTrue(candidateList.size() == newCandidateList.size());
     }
 
 
