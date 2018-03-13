@@ -25,17 +25,16 @@ import org.hibernate.annotations.DynamicUpdate;
 @Table(name = "work_candidate")
 public class WorkCandidate extends DateInterval {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(name = "name_company")
-    private String companyName;
-    private String position;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	@Column(name = "name_company")
+	private String companyName;
+	private String position;
 
-    public WorkCandidate(Long id, String nameCompany, String position, Date dateStart,
-            Date dateEnd) {
-        this(id, nameCompany, position);
-        setEndDate(dateEnd);
-        setStartDate(dateStart);
-    }
+	public WorkCandidate(Long id, String nameCompany, String position, Date dateStart, Date dateEnd) {
+		this(id, nameCompany, position);
+		setEndDate(dateEnd);
+		setStartDate(dateStart);
+	}
 }

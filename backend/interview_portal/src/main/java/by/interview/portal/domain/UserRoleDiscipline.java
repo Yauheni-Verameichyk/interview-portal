@@ -26,20 +26,20 @@ import org.hibernate.annotations.DynamicUpdate;
 @Table(name = "users_roles_disciplines")
 public class UserRoleDiscipline {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false, columnDefinition = "bigserial")
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Column(name = "id", nullable = false, columnDefinition = "bigserial")
+	private Long id;
 
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name = "role_id", nullable = false)
-    private Role role;
+	@Enumerated(EnumType.ORDINAL)
+	@Column(name = "role_id", nullable = false)
+	private Role role;
 
-    @ManyToOne(optional = true)
-    @JoinColumn(columnDefinition = "integer", name = "discipline_id")
-    private Discipline discipline;
+	@ManyToOne(optional = true)
+	@JoinColumn(columnDefinition = "integer", name = "discipline_id")
+	private Discipline discipline;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 }

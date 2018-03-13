@@ -18,11 +18,11 @@ import javax.persistence.Table;
 @Table(name = "operation")
 public class Operation {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false, columnDefinition = "bigserial")
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Column(name = "id", nullable = false, columnDefinition = "bigserial")
+	private Long id;
 
-    @Column(name = "name", unique = true)
-    String name;
+	@Column(name = "name", unique = true)
+	String name;
 }

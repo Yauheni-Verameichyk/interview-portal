@@ -23,15 +23,15 @@ import lombok.ToString;
 @Table(name = "users")
 public class User extends Person {
 
-    @Column(name = "login", unique = true, nullable = false, length = 50)
-    private String login;
+	@Column(name = "login", unique = true, nullable = false, length = 50)
+	private String login;
 
-    @Column(name = "password", nullable = false, length = 100)
-    private String password;
+	@Column(name = "password", nullable = false, length = 100)
+	private String password;
 
-    @Column(name = "phone_number", nullable = false, length = 50)
-    private String phoneNumber;
+	@Column(name = "phone_number", nullable = false, length = 50)
+	private String phoneNumber;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<UserRoleDiscipline> userRoleDisciplines;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	private List<UserRoleDiscipline> userRoleDisciplines;
 }

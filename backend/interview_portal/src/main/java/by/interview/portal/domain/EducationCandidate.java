@@ -24,17 +24,16 @@ import lombok.ToString;
 @Table(name = "education_candidate")
 public class EducationCandidate extends DateInterval {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(name = "name_institution")
-    private String nameInstitution;
-    private String profession;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	@Column(name = "name_institution")
+	private String nameInstitution;
+	private String profession;
 
-    public EducationCandidate(Long id, String nameInstitution, String profession, Date dateStart,
-            Date dateEnd) {
-        this(id, nameInstitution, profession);
-        setEndDate(dateEnd);
-        setStartDate(dateStart);
-    }
+	public EducationCandidate(Long id, String nameInstitution, String profession, Date dateStart, Date dateEnd) {
+		this(id, nameInstitution, profession);
+		setEndDate(dateEnd);
+		setStartDate(dateStart);
+	}
 }
