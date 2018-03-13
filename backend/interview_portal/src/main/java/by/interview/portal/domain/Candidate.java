@@ -1,6 +1,8 @@
 package by.interview.portal.domain;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -24,7 +26,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-
 @Entity
 @Table(name = "candidates")
 public class Candidate extends Person {
@@ -51,5 +52,28 @@ public class Candidate extends Person {
         this.disciplineList = disciplineList;
         this.workCandidateList = workCandidateList;
         this.educationCandidateList = educationCandidateList;
+    }
+
+    @Override public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
+        Candidate candidate = (Candidate) o;
+        if (!disciplineList.equals(candidate.disciplineList))
+            return false;
+        if (!workCandidateList.equals(candidate.workCandidateList))
+            return false;
+        return educationCandidateList.equals(candidate.educationCandidateList);
+    }
+
+    @Override public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + disciplineList.hashCode();
+        result = 31 * result + workCandidateList.hashCode();
+        result = 31 * result + educationCandidateList.hashCode();
+        return result;
     }
 }

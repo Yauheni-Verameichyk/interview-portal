@@ -19,7 +19,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-
 @Entity
 @Table(name = "users")
 public class User extends Person {
