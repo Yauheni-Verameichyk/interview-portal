@@ -2,7 +2,6 @@ package by.interview.portal.domain;
 
 import java.util.List;
 import java.util.Set;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
