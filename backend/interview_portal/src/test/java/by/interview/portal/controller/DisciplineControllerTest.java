@@ -73,7 +73,7 @@ public class DisciplineControllerTest {
 				.andExpect(jsonPath("$", hasSize(1))).andExpect(jsonPath("$[0].name", is(disciplineDTO.getName())));
 	}
 
-	@Test
+    @Test
 	public void shouldReturnDisciplineWithHeadsById() throws Exception {
 		given(disciplineFacade.findById((long) 1)).willReturn(disciplineWithHeadsDTO);
 		mvc.perform(get("/discipline/1").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
