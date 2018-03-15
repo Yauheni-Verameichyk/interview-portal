@@ -6,7 +6,6 @@ import by.interview.portal.dto.CandidateDTO;
 import by.interview.portal.facade.CandidateFacade;
 import by.interview.portal.service.CandidateService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.util.Sets;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
