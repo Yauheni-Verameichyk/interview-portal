@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -26,8 +27,10 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -61,7 +64,7 @@ public class CandidateControllerTest {
     }
 
     @Test
-    public void updateTest() throws Exception {
+    public void shouldUpdateCandidate() throws Exception {
         doNothing().when(candidateService).update(candidate);
         ObjectMapper objectMapper = new ObjectMapper();
         mockMvc.perform(put("/candidates").contentType(MediaType.APPLICATION_JSON)
@@ -70,7 +73,7 @@ public class CandidateControllerTest {
     }
 
     @Test
-    public void findAll() throws Exception {
+    public void shouldReturnCandidateDTOList() throws Exception {
         given(candidateFacade.findAll(0)).willReturn(Arrays.asList(candidateDTO));
         mockMvc.perform(get("/candidates?quantity=0").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andExpect(jsonPath("$", hasSize(1)))
@@ -78,14 +81,14 @@ public class CandidateControllerTest {
     }
 
     @Test
-    public void findByIdTest() throws Exception {
+    public void shouldReturnCandidateById() throws Exception {
         given(candidateService.findById(1L)).willReturn(candidate);
         mockMvc.perform(get("/candidates/1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.name", is(candidate.getName())));
     }
 
     @Test
-    public void addTest() throws Exception {
+    public void shouldCreateCandidate() throws Exception {
         doNothing().when(candidateService).add(candidate);
         ObjectMapper objectMapper = new ObjectMapper();
         byte[] requestJson = objectMapper.writeValueAsBytes(candidate);
