@@ -1,10 +1,10 @@
 package by.interview.portal.repository;
 
-import by.interview.portal.config.TestRepositoryConfig;
-import by.interview.portal.domain.Candidate;
-import by.interview.portal.domain.Discipline;
-import by.interview.portal.domain.EducationCandidate;
-import by.interview.portal.domain.WorkCandidate;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,11 +13,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import by.interview.portal.config.TestRepositoryConfig;
+import by.interview.portal.domain.Candidate;
+import by.interview.portal.domain.Discipline;
+import by.interview.portal.domain.EducationCandidate;
+import by.interview.portal.domain.WorkCandidate;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {TestRepositoryConfig.class})
