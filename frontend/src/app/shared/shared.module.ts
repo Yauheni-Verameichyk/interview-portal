@@ -32,7 +32,6 @@ import { PopupService } from './pop-up-window/popup-service/popup.service';
     FormValidatorService,
     LightFieldService,
     PopupService
-
   ],
   exports: [
     ShowAuthedDirective,
