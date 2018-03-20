@@ -1,27 +1,8 @@
-Software engineering company 	“EPAM Systems”
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 project
 
 Interview portal
 
 statement of work
-
-
 
 
 
