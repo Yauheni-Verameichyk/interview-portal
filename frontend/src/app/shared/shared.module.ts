@@ -13,8 +13,6 @@ import { ValidatorMessageComponent } from './validator/validator-message/validat
 import { RouterModule } from '@angular/router';
 import { PopupService } from './pop-up-window/popup-service/popup.service';
 
-
-
 @NgModule({
   imports: [
     CommonModule,
@@ -41,7 +39,7 @@ import { PopupService } from './pop-up-window/popup-service/popup.service';
     SelectUserComponent,
     ValidatorMessageComponent,
     SelectRoleComponent,
-    MessageWindowComponent
+    MessageWindowComponent,
   ]
 })
 export class SharedModule { }
