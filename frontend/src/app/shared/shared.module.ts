@@ -38,7 +38,7 @@ import { PopupService } from './pop-up-window/popup-service/popup.service';
     SelectUserComponent,
     ValidatorMessageComponent,
     SelectRoleComponent,
-    MessageWindowComponent,
+    MessageWindowComponent
   ]
 })
 export class SharedModule { }
