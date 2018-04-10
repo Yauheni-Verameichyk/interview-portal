@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import 'rxjs/add/operator/takeUntil';
 import { Subject } from 'rxjs';
@@ -18,30 +18,41 @@ import { Router, NavigationEnd } from '@angular/router';
 export class DisciplinesListComponent implements OnDestroy {
 
   disciplinesList: Array<DisciplineDTO> = [];
+  activeFilter: string;
   private readonly destroy: Subject<void> = new Subject();
   constructor(private disciplineService: DisciplineService,
     private authenticationService: AuthenticationService,
     private popupService: PopupService,
     private router: Router
   ) {
+    this.activeFilter = this.authenticationService.isPermissionPresent('DISCIPLINES_FILTER_READ') ? 'MY' : 'ALL';
+    this.findDisciplines(this.activeFilter, this.disciplinesList.length);
     this.router.events
       .takeUntil(this.destroy)
       .subscribe((e: any) => {
-        if (e instanceof NavigationEnd) {
-          (this.authenticationService.isPermissionPresent('DISCIPLINES_FILTER_READ'))
-            ? this.findDisciplines('MY') : this.findDisciplines('ALL');
+        if (e instanceof NavigationEnd && e.urlAfterRedirects.includes('popup:message')) {
+          this.findDisciplines(this.activeFilter, this.disciplinesList.length);
         }
       });
   }
 
-  findDisciplines(searchOption: string): void {
-    this.disciplineService.chooseRequest(searchOption)
+  findDisciplines(activeFilter: string, disciplinesNumber: number): void {
+    this.disciplineService.chooseRequest(activeFilter, disciplinesNumber)
       .takeUntil(this.destroy)
       .subscribe((disciplines) => {
-        this.disciplinesList = disciplines;
+        (this.activeFilter === 'ALL') ? this.disciplinesList.push(...disciplines) : this.disciplinesList = disciplines;
       }, (error) => {
         this.popupService.displayMessage('Error during disciplines reading', this.router);
       });
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  windowScrollListener() {
+    const position = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
+    const max = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    if (position === max && this.activeFilter === 'ALL') {
+      this.findDisciplines(this.activeFilter, this.disciplinesList.length);
+    }
   }
 
   ngOnDestroy(): void {

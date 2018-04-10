@@ -86,3 +86,11 @@ table {
 .patterns-list {
     margin-top: 10px;
 }
+
+.duration-column {
+    width: 130px;
+}
+
+table {
+    background: white !important;
+}
