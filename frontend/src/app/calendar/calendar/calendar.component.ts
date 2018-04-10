@@ -23,6 +23,7 @@ import { CalendarDTO } from '../../api/models/calendar-dto';
 })
 export class CalendarComponent implements OnDestroy {
 
+  public isLoaded: boolean = false;
   view = 'month';
   viewDate: Date = new Date();
   recurringEvents: RecurringEvent[] = [];
@@ -84,6 +85,7 @@ export class CalendarComponent implements OnDestroy {
           this.calendarService.generateNonRepeatableEvent(timeSlot), this.excludedTimeSlots);
     }
     this.addRecurringEventsToCalendarEvents();
+    this.isLoaded = true;
   }
 
   clearArrays() {
