@@ -15,6 +15,7 @@ import 'rxjs/add/operator/takeUntil';
 import { CalendarControllerService } from '../../api/services/calendar-controller.service';
 import { ExcludedTimeSlot } from '../../api/models/excluded-time-slot';
 import { CalendarDTO } from '../../api/models/calendar-dto';
+import { RecurringEvent } from '../../api/models/recurring-event';
 
 @Component({
   selector: 'app-calendar',
