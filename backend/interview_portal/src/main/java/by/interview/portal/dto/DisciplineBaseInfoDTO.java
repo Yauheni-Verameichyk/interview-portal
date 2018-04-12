@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DisciplineBaseInfoDTO {
 
-    private Long id;
+	private Long id;
 
-    private String name;
+	private String name;
 
 }

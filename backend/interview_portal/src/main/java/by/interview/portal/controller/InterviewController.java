@@ -1,10 +1,8 @@
 package by.interview.portal.controller;
 
-import by.interview.portal.domain.Interview;
 import by.interview.portal.dto.FullInterviewInfoDTO;
 import by.interview.portal.dto.InterviewDTO;
 import by.interview.portal.facade.InterviewFacade;
-import by.interview.portal.service.InterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,33 +22,32 @@ import java.util.List;
 @RequestMapping("interviews")
 public class InterviewController {
 
-    @Autowired
-    private InterviewFacade interviewFacade;
+	@Autowired
+	private InterviewFacade interviewFacade;
 
-    @GetMapping
-    public List<InterviewDTO> findAll(
-            @RequestParam(name = "quantity", defaultValue = "0") Integer quantity) {
-        return interviewFacade.findAll(quantity);
-    }
+	@GetMapping
+	public List<InterviewDTO> findAll(@RequestParam(name = "quantity", defaultValue = "0") Integer quantity) {
+		return interviewFacade.findAll(quantity);
+	}
 
-    @GetMapping("{id}")
-    public FullInterviewInfoDTO findById(@PathVariable Long id) {
-        return interviewFacade.findById(id);
-    }
+	@GetMapping("{id}")
+	public FullInterviewInfoDTO findById(@PathVariable Long id) {
+		return interviewFacade.findById(id);
+	}
 
-    @PostMapping
-    public void add(@RequestBody FullInterviewInfoDTO interview) {
-        interviewFacade.add(interview);
-    }
+	@PostMapping
+	public void add(@RequestBody FullInterviewInfoDTO interview) {
+		interviewFacade.add(interview);
+	}
 
-    @PutMapping
-    public void update(@RequestBody FullInterviewInfoDTO interview) {
-        interviewFacade.update(interview);
-    }
+	@PutMapping
+	public void update(@RequestBody FullInterviewInfoDTO interview) {
+		interviewFacade.update(interview);
+	}
 
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable Long id) {
-        interviewFacade.delete(id);
-    }
+	@DeleteMapping("{id}")
+	public void delete(@PathVariable Long id) {
+		interviewFacade.delete(id);
+	}
 
 }

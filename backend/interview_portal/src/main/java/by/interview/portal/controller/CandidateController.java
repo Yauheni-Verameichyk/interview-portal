@@ -15,35 +15,34 @@ import java.util.List;
 @RequestMapping("candidates")
 public class CandidateController {
 
-    @Autowired
-    private CandidateFacade candidateFacade;
-    @Autowired
-    private CandidateService candidateService;
+	@Autowired
+	private CandidateFacade candidateFacade;
+	@Autowired
+	private CandidateService candidateService;
 
-    @GetMapping
-    public List<CandidateDTO> findAll(
-            @RequestParam(name = "quantity", defaultValue = "0") Integer quantity) {
-        return candidateFacade.findAll(quantity);
-    }
+	@GetMapping
+	public List<CandidateDTO> findAll(@RequestParam(name = "quantity", defaultValue = "0") Integer quantity) {
+		return candidateFacade.findAll(quantity);
+	}
 
-    @GetMapping("{id}")
-    public Candidate findById(@PathVariable Long id) {
-        return candidateService.findById(id);
-    }
+	@GetMapping("{id}")
+	public Candidate findById(@PathVariable Long id) {
+		return candidateService.findById(id);
+	}
 
-    @PostMapping
-    public void add(@RequestBody Candidate candidate) {
-        candidateService.add(candidate);
-    }
+	@PostMapping
+	public void add(@RequestBody Candidate candidate) {
+		candidateService.add(candidate);
+	}
 
-    @PutMapping
-    public void update(@RequestBody Candidate candidate) {
-        candidateService.update(candidate);
-    }
+	@PutMapping
+	public void update(@RequestBody Candidate candidate) {
+		candidateService.update(candidate);
+	}
 
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable Long id) {
-        candidateService.delete(id);
-    }
+	@DeleteMapping("{id}")
+	public void delete(@PathVariable Long id) {
+		candidateService.delete(id);
+	}
 
 }

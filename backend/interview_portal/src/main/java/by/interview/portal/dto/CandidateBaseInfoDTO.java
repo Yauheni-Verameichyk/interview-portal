@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CandidateBaseInfoDTO {
 
-    private Long id;
+	private Long id;
 
-    private String name;
+	private String name;
 
-    private String surname;
+	private String surname;
 
 }

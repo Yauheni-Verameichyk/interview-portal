@@ -20,40 +20,40 @@ import java.util.stream.Collectors;
 @Service
 public class InterviewFacadeImpl implements InterviewFacade {
 
-    @Autowired
-    private InterviewService interviewService;
+	@Autowired
+	private InterviewService interviewService;
 
-    @Autowired
-    @Qualifier("interviewDTOConverter")
-    private Converter<Interview, InterviewDTO> interviewConverter;
+	@Autowired
+	@Qualifier("interviewDTOConverter")
+	private Converter<Interview, InterviewDTO> interviewConverter;
 
-    @Autowired
-    @Qualifier("fullInterviewInfoDTOConverter")
-    private Converter<Interview, FullInterviewInfoDTO> fullInterviewInfoConverter;
+	@Autowired
+	@Qualifier("fullInterviewInfoDTOConverter")
+	private Converter<Interview, FullInterviewInfoDTO> fullInterviewInfoConverter;
 
-    @Override
-    public List<InterviewDTO> findAll(Integer quantity) {
-        return interviewService.findAll(quantity).stream().filter(Objects::nonNull)
-                .map(interviewConverter::convertToDTO).collect(Collectors.toList());
-    }
+	@Override
+	public List<InterviewDTO> findAll(Integer quantity) {
+		return interviewService.findAll(quantity).stream().filter(Objects::nonNull)
+				.map(interviewConverter::convertToDTO).collect(Collectors.toList());
+	}
 
-    public FullInterviewInfoDTO findById(Long id) {
-        return fullInterviewInfoConverter.convertToDTO(interviewService.findById(id));
-    }
+	public FullInterviewInfoDTO findById(Long id) {
+		return fullInterviewInfoConverter.convertToDTO(interviewService.findById(id));
+	}
 
-    @Override
-    public void add(FullInterviewInfoDTO interview) {
-        interviewService.add(fullInterviewInfoConverter.convertToEntity(interview));
-    }
+	@Override
+	public void add(FullInterviewInfoDTO interview) {
+		interviewService.add(fullInterviewInfoConverter.convertToEntity(interview));
+	}
 
-    @Override
-    public void update(FullInterviewInfoDTO interview) {
-        interviewService.update(fullInterviewInfoConverter.convertToEntity(interview));
-    }
+	@Override
+	public void update(FullInterviewInfoDTO interview) {
+		interviewService.update(fullInterviewInfoConverter.convertToEntity(interview));
+	}
 
-    @Override
-    public void delete(Long id) {
-        interviewService.delete(id);
-    }
+	@Override
+	public void delete(Long id) {
+		interviewService.delete(id);
+	}
 
 }

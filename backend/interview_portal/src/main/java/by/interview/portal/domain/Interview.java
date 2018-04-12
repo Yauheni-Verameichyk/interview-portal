@@ -29,45 +29,45 @@ import lombok.ToString;
 @Table(name = "interviews")
 public class Interview {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", columnDefinition = "bigserial")
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Column(name = "id", columnDefinition = "bigserial")
+	private Long id;
 
-    @Column(name = "description", length = 200)
-    private String description;
+	@Column(name = "description", length = 200)
+	private String description;
 
-    @Column(name = "start_time")
-    private LocalDateTime startTime;
+	@Column(name = "start_time")
+	private LocalDateTime startTime;
 
-    @Column(name = "end_time")
-    private LocalDateTime endTime;
+	@Column(name = "end_time")
+	private LocalDateTime endTime;
 
-    @ManyToOne
-    @JoinColumn(name = "candidate_id")
-    private Candidate candidate;
+	@ManyToOne
+	@JoinColumn(name = "candidate_id")
+	private Candidate candidate;
 
-    private String place;
+	private String place;
 
-    @Column(name = "final_mark")
-    private Byte finalMark;
+	@Column(name = "final_mark")
+	private Byte finalMark;
 
-    private String feedback;
+	private String feedback;
 
-    private String status;
+	private String status;
 
-    @ManyToMany
-    @JoinTable(name = "interviews_users", joinColumns = {@JoinColumn(name = "interview_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id")})
-    private Set<User> interviewerSet;
+	@ManyToMany
+	@JoinTable(name = "interviews_users", joinColumns = { @JoinColumn(name = "interview_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "user_id") })
+	private Set<User> interviewerSet;
 
-    @ManyToMany
-    @JoinTable(name = "interview_discipline", joinColumns = {@JoinColumn(name = "interview_id")},
-            inverseJoinColumns = {@JoinColumn(name = "discipline_id")})
-    private Set<Discipline> disciplineSet;
+	@ManyToMany
+	@JoinTable(name = "interview_discipline", joinColumns = {
+			@JoinColumn(name = "interview_id") }, inverseJoinColumns = { @JoinColumn(name = "discipline_id") })
+	private Set<Discipline> disciplineSet;
 
-    @OneToMany
-    @JoinColumn(name = "interview_id")
-    private List<DisciplineMark> markList;
+	@OneToMany
+	@JoinColumn(name = "interview_id")
+	private List<DisciplineMark> markList;
 
 }

@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface InterviewFacade {
 
-    List<InterviewDTO> findAll(Integer quantity);
+	List<InterviewDTO> findAll(Integer quantity);
 
-    FullInterviewInfoDTO findById(Long id);
+	FullInterviewInfoDTO findById(Long id);
 
-    void add(FullInterviewInfoDTO interview);
+	void add(FullInterviewInfoDTO interview);
 
-    void update(FullInterviewInfoDTO interview);
+	void update(FullInterviewInfoDTO interview);
 
-    void delete(Long id);
+	void delete(Long id);
 }
