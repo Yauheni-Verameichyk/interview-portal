@@ -35,7 +35,7 @@ export class DisciplineService {
     return (childLevel === 0) ? 'DISCIPLINE_DELETE' : `SUB_ITEM_DELETE_${disciplineName}`;
   }
 
-  chooseRequest(searchOption: string, disciplinesNumber): Observable<DisciplineDTO[]> {
+  chooseRequest(searchOption: string, disciplinesNumber?): Observable<DisciplineDTO[]> {
     switch (searchOption) {
       case this.searchOptions.MY:
         return this.disciplinesControlerService.findDisciplinesForUserUsingGET();
@@ -43,6 +43,21 @@ export class DisciplineService {
         return this.disciplinesControlerService.findAllUsingGET(disciplinesNumber);
       default:
       throw new Error('Perhaps you do not know what you want');
+    }
+  }
+
+  selectSearchPattern(searchDisciplines: boolean, searchSubItems: boolean): string {
+    if (searchDisciplines && searchSubItems) {
+      return '';
+    }
+    if (searchDisciplines && !searchSubItems) {
+      return ',parentId=null';
+    }
+    if (!searchDisciplines && searchSubItems) {
+      return ',parentId<>null';
+    }
+    if (!searchDisciplines && !searchSubItems) {
+      throw new Error();
     }
   }
 }
