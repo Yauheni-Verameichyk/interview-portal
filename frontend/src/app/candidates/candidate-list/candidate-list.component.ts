@@ -11,7 +11,6 @@ import { CandidateService } from '../service/candidate.service';
 })
 export class CandidateListComponent implements OnInit {
 
-
   constructor(public candidateService: CandidateService) { }
 
   ngOnInit() {
