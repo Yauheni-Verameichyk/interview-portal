@@ -12,20 +12,20 @@ import java.util.Set;
 @NoArgsConstructor
 public class InterviewDTO {
 
-	private Long id;
+    private Long id;
 
-	private LocalDateTime startTime;
+    private LocalDateTime startTime;
 
-	private LocalDateTime endTime;
+    private LocalDateTime endTime;
 
-	private CandidateBaseInfoDTO candidate;
+    private CandidateBaseInfoDTO candidate;
 
-	private String place;
+    private String place;
 
-	private String status;
+    private String status;
 
-	private Set<UserBaseInfoDTO> interviewerSet;
+    private Set<UserBaseInfoDTO> interviewerSet;
 
-	private Set<DisciplineBaseInfoDTO> disciplineSet;
+    private Set<DisciplineBaseInfoDTO> disciplineSet;
 
 }

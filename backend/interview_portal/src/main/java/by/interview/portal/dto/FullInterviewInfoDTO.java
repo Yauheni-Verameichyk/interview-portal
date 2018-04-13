@@ -14,28 +14,28 @@ import java.util.Set;
 @NoArgsConstructor
 public class FullInterviewInfoDTO {
 
-	private Long id;
+    private Long id;
 
-	private String description;
+    private String description;
 
-	private LocalDateTime startTime;
+    private LocalDateTime startTime;
 
-	private LocalDateTime endTime;
+    private LocalDateTime endTime;
 
-	private CandidateBaseInfoDTO candidate;
+    private CandidateBaseInfoDTO candidate;
 
-	private String place;
+    private String place;
 
-	private Byte finalMark;
+    private Byte finalMark;
 
-	private String feedback;
+    private String feedback;
 
-	private String status;
+    private String status;
 
-	private Set<UserBaseInfoDTO> interviewerSet;
+    private Set<UserBaseInfoDTO> interviewerSet;
 
-	private Set<DisciplineBaseInfoDTO> disciplineSet;
+    private Set<DisciplineBaseInfoDTO> disciplineSet;
 
-	private List<DisciplineMark> markList;
+    private List<DisciplineMark> markList;
 
 }

@@ -19,16 +19,16 @@ import javax.persistence.Table;
 @Table(name = "discipline_mark")
 public class DisciplineMark {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
-	private Byte value;
+    private Byte value;
 
-	@ManyToOne
-	@JoinColumn(name = "discipline_id")
-	private Discipline discipline;
+    @ManyToOne
+    @JoinColumn(name = "discipline_id")
+    private Discipline discipline;
 
-	private String comment;
+    private String comment;
 
 }
