@@ -3,12 +3,18 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { InterviewListComponent } from './interview-list/interview-list.component';
 import { InterviewComponent } from './interview/interview.component';
+import { InterviewFormComponent } from './interview-form/interview-form.component';
 
 
 const routes: Routes = [
     {
         path: 'interview',
         component: InterviewListComponent
+    },
+    {
+        path: 'interview-create',
+        component: InterviewFormComponent,
+        outlet: 'popup'
     }
 ];
 

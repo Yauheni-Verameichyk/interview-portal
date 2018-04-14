@@ -17,16 +17,14 @@
                 <span class="chevron"></span>
               </button>
 
-              <input aria-label="Hours" class="form-control" maxlength="2" placeholder="HH" size="2" type="text" [(ngModel)]="specifiedTime.duration"
-                formControlName="duration">
+              <input aria-label="Hours" class="form-control" maxlength="2" placeholder="HH" size="2" type="text" [(ngModel)]="specifiedTime.duration" formControlName="duration">
               <button class="btn btn-link ng-star-inserted" type="button" (click)="specifiedTime.duration = specifiedTime.duration - 1">
                 <span class="chevron bottom"></span>
               </button>
               <validator-message [field]="specifiedTimeForm.controls.duration"></validator-message>
             </td>
             <td>
-              <mwl-demo-utils-date-time-picker [(ngModel)]="specifiedTime.startTime" (ngModelChange)="refresh.next()" [showTime]="true"
-                formControlName="startTime" placeholder="Not set">
+              <mwl-demo-utils-date-time-picker [(ngModel)]="specifiedTime.startTime" (ngModelChange)="refresh.next()" [showTime]="true" formControlName="startTime" placeholder="Not set">
               </mwl-demo-utils-date-time-picker>
               <validator-message [field]="specifiedTimeForm.controls.startTime"></validator-message>
             </td>
@@ -70,8 +68,7 @@
             <td>
 
               <div *ngIf="specifiedTime.isRepeatable">
-                <mwl-demo-utils-date-time-picker [(ngModel)]="specifiedTime.endTime" (ngModelChange)="refresh.next()" (showTime)="false"
-                  formControlName="endTime" placeholder="Not set" (click)="specifiedTimeForm.controls.endTime.markAsTouched()">
+                <mwl-demo-utils-date-time-picker [(ngModel)]="specifiedTime.endTime" (ngModelChange)="refresh.next()" (showTime)="false" formControlName="endTime" placeholder="Not set" (click)="specifiedTimeForm.controls.endTime.markAsTouched()">
                 </mwl-demo-utils-date-time-picker>
                 <validator-message [field]="specifiedTimeForm.controls.endTime"></validator-message>
               </div>

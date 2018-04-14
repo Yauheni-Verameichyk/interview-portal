@@ -6,7 +6,6 @@ import { calendarRouterComponents, CalendarRoutingModule } from './calendar.rout
 import { CalendarComponent } from './calendar/calendar.component';
 import { CalendarModule } from 'angular-calendar';
 import { CalendarHeaderComponent } from './calendar-header/calendar-header.component';
-import { DateTimePickerComponent } from './date-time-picker/date-time-picker.component';
 import { NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarService } from './service/calendar.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -26,15 +25,12 @@ import { CalendarDeleteFormComponent } from './calendar-delete-form/calendar-del
     ReactiveFormsModule,
     CalendarRoutingModule,
     CalendarModule.forRoot(),
-    NgbDatepickerModule.forRoot(),
-    NgbTimepickerModule.forRoot(),
     BrowserAnimationsModule
   ],
   declarations: [
     calendarRouterComponents,
     CalendarComponent,
     CalendarHeaderComponent,
-    DateTimePickerComponent,
     CalendarFormComponent,
     CalendarDeleteFormComponent
   ],

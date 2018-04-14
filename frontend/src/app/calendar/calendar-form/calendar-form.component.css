@@ -92,8 +92,20 @@ table {
 
 table {
     background: white !important;
+    color: #000!important;
 }
 
 .mask {
     overflow-y: hidden;
+}
+
+thead, tfoot {
+    background: rgba(255, 255, 255, 0.9)!important;
+    color: #000!important;
+    letter-spacing: 1px!important;
+    font-size: 14px!important; 
+  }
+
+tbody:hover {
+    background-color: #ffffff!important;
 }

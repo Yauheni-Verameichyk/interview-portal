@@ -4,17 +4,21 @@ import { InterviewsRoutingModule, interviewsRouterComponent } from './interviews
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InterviewControllerService } from '../api/services/interview-controller.service'; 
 import { TableHeadComponent } from './interview-list/table-head/table-head.component';
+import { InterviewFormComponent } from './interview-form/interview-form.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     InterviewsRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   declarations: [
     interviewsRouterComponent,
-    TableHeadComponent
+    TableHeadComponent,
+    InterviewFormComponent,
   ],
   providers: [
     InterviewControllerService

@@ -1,0 +1,10 @@
+<div class="mask">
+  <div class='border popup-form'>
+      <form>
+         <h1>{{formTitle}}</h1>
+          <span class="window-close" [routerLink]="['',{ outlets: { popup: null }}]"></span>
+          <mwl-demo-utils-date-time-picker [showTime]="false" placeholder="Not set">
+          </mwl-demo-utils-date-time-picker>
+        </form>
+  </div>
+</div>
