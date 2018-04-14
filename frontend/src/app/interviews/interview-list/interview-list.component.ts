@@ -1,5 +1,4 @@
 import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
-import { InterviewService } from '../service/interview.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { InterviewControllerService } from '../../api/services/interview-controller.service';
 import { PopupService } from '../../shared/pop-up-window/popup-service/popup.service';

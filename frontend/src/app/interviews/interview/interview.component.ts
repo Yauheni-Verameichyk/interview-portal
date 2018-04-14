@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { InterviewDTO } from '../../api/models/interview-dto';
-import { InterviewService } from '../service/interview.service';
 import { Router } from '@angular/router';
 import { PopupService } from '../../shared/pop-up-window/popup-service/popup.service';
 import { InterviewControllerService } from '../../api/services/interview-controller.service';
