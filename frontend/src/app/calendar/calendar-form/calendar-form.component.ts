@@ -56,6 +56,7 @@ export class CalendarFormComponent implements OnInit, OnDestroy {
       this.specifiedTime.endTime = this.calendarService.getCurrentDate();
       this.specifiedTime.duration = 1;
       this.specifiedTime.repeatPeriod = 1;
+      console.log(this.specifiedTime.startTime);
     }
   }
 

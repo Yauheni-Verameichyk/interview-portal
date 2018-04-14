@@ -1,0 +1,21 @@
+
+.disable-table {
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+.disabled-input {
+    pointer-events:none;
+    background-color: #dee2e6;
+}
+
+.popup-form form{
+    margin: 10px 10px;
+}
+.btn-close{
+    margin-top: 20px;
+}
+
+.table-list {
+    max-height: 60vh;
+}

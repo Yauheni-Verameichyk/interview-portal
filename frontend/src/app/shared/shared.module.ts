@@ -13,13 +13,16 @@ import { ValidatorMessageComponent } from './validator/validator-message/validat
 import { RouterModule } from '@angular/router';
 import { AssignDisciplineComponent } from './assign-discipline/assign-discipline.component';
 import { PopupService } from './pop-up-window/popup-service/popup.service';
-
+import { NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { DateTimePickerComponent } from './date-time-picker/date-time-picker.component';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    NgbDatepickerModule.forRoot(),
+    NgbTimepickerModule.forRoot()
   ],
   declarations: [
     ShowAuthedDirective,
@@ -27,7 +30,8 @@ import { PopupService } from './pop-up-window/popup-service/popup.service';
     ValidatorMessageComponent,
     SelectRoleComponent,
     MessageWindowComponent,
-    AssignDisciplineComponent
+    AssignDisciplineComponent,
+    DateTimePickerComponent
   ],
   providers: [
     UserFormMangerService,
@@ -41,7 +45,8 @@ import { PopupService } from './pop-up-window/popup-service/popup.service';
     ValidatorMessageComponent,
     SelectRoleComponent,
     MessageWindowComponent,
-    AssignDisciplineComponent
+    AssignDisciplineComponent,
+    DateTimePickerComponent
   ]
 })
 export class SharedModule { }
