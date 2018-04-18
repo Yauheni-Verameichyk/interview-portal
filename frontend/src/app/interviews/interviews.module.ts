@@ -4,17 +4,21 @@ import { InterviewsRoutingModule, interviewsRouterComponent } from './interviews
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InterviewControllerService } from '../api/services/interview-controller.service'; 
 import { TableHeadComponent } from './interview-list/table-head/table-head.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TimeIntervalComponent } from './time-interval/time-interval.component';
 
 @NgModule({
   imports: [
     CommonModule,
     InterviewsRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbModule
   ],
   declarations: [
     interviewsRouterComponent,
-    TableHeadComponent
+    TableHeadComponent,
+    TimeIntervalComponent
   ],
   providers: [
     InterviewControllerService

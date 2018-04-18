@@ -1,0 +1,9 @@
+<div class="mask">
+  <div class='border popup-form'>
+      <form>
+         <h4>{{formTitle}}</h4>
+         <app-time-interval [(ngModel)]="interval" (ngModelChange)="refresh.next()" [ngModelOptions]="{standalone: true}" (click)="a()"></app-time-interval>
+      </form>
+      <span class="window-close" [routerLink]="['', {outlets: { popup: null }}]"></span>
+  </div>
+</div>
