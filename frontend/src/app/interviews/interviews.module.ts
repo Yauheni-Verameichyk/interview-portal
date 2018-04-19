@@ -6,6 +6,9 @@ import { InterviewControllerService } from '../api/services/interview-controller
 import { TableHeadComponent } from './interview-list/table-head/table-head.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TimeIntervalComponent } from './time-interval/time-interval.component';
+import { InterviewCandidateComponent } from './interview-form/interview-candidate/interview-candidate.component';
+import { InterviewDisciplineComponent } from './interview-form/interview-discipline/interview-discipline.component';
+import { InterviewersComponent } from './interview-form/interviewers/interviewers.component'
 
 @NgModule({
   imports: [
@@ -18,7 +21,10 @@ import { TimeIntervalComponent } from './time-interval/time-interval.component';
   declarations: [
     interviewsRouterComponent,
     TableHeadComponent,
-    TimeIntervalComponent
+    TimeIntervalComponent,
+    InterviewCandidateComponent,
+    InterviewDisciplineComponent,
+    InterviewersComponent
   ],
   providers: [
     InterviewControllerService

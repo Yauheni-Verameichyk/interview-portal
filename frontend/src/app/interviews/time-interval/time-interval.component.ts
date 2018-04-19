@@ -25,32 +25,35 @@ export class TimeIntervalComponent implements ControlValueAccessor {
     endDate: new Date()
   };
 
-  dateModel: NgbDateStruct = {
-    day: getDate(now),
-    month: getMonth(now) + 1,
-    year: getYear(now)
-  };
-  startTimeModel: NgbTimeStruct = {
-    second: 0,
-    hour: getHours(now) + 1,
-    minute: 0
-  };
-  endTimeModel: NgbTimeStruct = {
-    second: 0,
-    hour: getHours(now) + 2,
-    minute: 0
-  };
+  dateModel: NgbDateStruct;
+  startTimeModel: NgbTimeStruct;
+  endTimeModel: NgbTimeStruct;
   date: { year: number, month: number };
-  minDate: NgbDateStruct = {
-    day: getDate(now),
-    month: getMonth(now) + 1,
-    year: getYear(now)
-  };
+  minDate: NgbDateStruct;
 
-  onTouched = () => {};
+  onTouched = () => { };
 
   selectToday() {
-    this.dateModel = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
+    this.dateModel = {
+      day: getDate(now),
+      month: getMonth(now) + 1,
+      year: getYear(now)
+    };
+    this.startTimeModel = {
+      second: 0,
+      hour: getHours(now) + 1,
+      minute: 0
+    };
+    this.endTimeModel = {
+      second: 0,
+      hour: getHours(now) + 2,
+      minute: 0
+    };
+    this.minDate = {
+      day: getDate(now),
+      month: getMonth(now) + 1,
+      year: getYear(now)
+    };
   }
 
   private onChangeCallback: (interval: DateTimeInterval) => void = () => { };
@@ -60,7 +63,10 @@ export class TimeIntervalComponent implements ControlValueAccessor {
   writeValue(interval: DateTimeInterval): void {
     if (interval) {
       this.interval = interval;
-    } 
+    } else {
+      this.selectToday();
+    }
+    this.refreshDate();
     this.cdr.detectChanges();
   }
 
@@ -68,18 +74,27 @@ export class TimeIntervalComponent implements ControlValueAccessor {
     this.onChangeCallback = fn;
   }
 
-  registerOnTouched(fn: any): void { 
+  registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
 
+  refreshStartTime() {
+    if (this.startTimeModel.hour === 0) {
+      this.endTimeModel = { hour: 1, minute: 0, second: 0 }
+    }
+    let startTime = (this.startTimeModel.hour + 1) * 60 + this.startTimeModel.minute;
+    let endTime = this.endTimeModel.hour * 60 + this.endTimeModel.minute;
+    if (startTime > (endTime + 40)) {
+      this.endTimeModel = {
+        hour: this.startTimeModel.hour + 1,
+        minute: this.startTimeModel.minute,
+        second: 0
+      }
+    }
+    this.refreshDate();
+  }
+
   refreshDate() {
-    // if (this.startTimeModel.hour > this.endTimeModel.hour) {
-    //   this.startTimeModel = {
-    //     hour: this.endTimeModel.hour,
-    //     second: 0,
-    //     minute: 0
-    //   };
-    // }
     let stringDate = this.dateModel.year + "/" + (this.dateModel.month) + "/" + this.dateModel.day;
     this.interval.startDate = new Date(stringDate);
     this.interval.endDate = new Date(stringDate);
@@ -90,6 +105,23 @@ export class TimeIntervalComponent implements ControlValueAccessor {
     this.interval.startStringDate = this.convertDateToString(this.interval.startDate);
     this.interval.endStringDate = this.convertDateToString(this.interval.endDate);
     this.onChangeCallback(this.interval);
+  }
+
+  refreshEndTime() {
+    if (this.endTimeModel.hour === 0) {
+      this.startTimeModel = { hour: 23, minute: 0, second: 0 }
+    } else {
+      let startTime = this.startTimeModel.hour * 60 + this.startTimeModel.minute;
+      let endTime = this.endTimeModel.hour * 60 + this.endTimeModel.minute;
+      if ((endTime - 20) < (startTime)) {
+        this.startTimeModel = {
+          hour: this.endTimeModel.hour - 1,
+          minute: this.endTimeModel.minute,
+          second: 0
+        }
+      }
+    }
+    this.refreshDate();
   }
 
   convertDateToString(date: Date) {
