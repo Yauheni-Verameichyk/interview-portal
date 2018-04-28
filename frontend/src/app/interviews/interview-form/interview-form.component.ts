@@ -16,7 +16,6 @@ import { UserBaseInfoDTO } from '../../api/models/user-base-info-dto';
 })
 export class InterviewFormComponent implements OnInit, OnDestroy {
 
-  public disciplines: DisciplineDTO[] = [];
   refresh: Subject<any> = new Subject();
 
   constructor(private interviewFormService: InterviewFormService) { }
@@ -54,9 +53,8 @@ export class InterviewFormComponent implements OnInit, OnDestroy {
     return this.interviewFormService.interviewerList;
   }
 
-  fetchDisciplines(disciplines: DisciplineDTO[]) {
-    this.interviewForm.controls.discipline.value.id = disciplines[0].id;
-    this.disciplines = disciplines;
+  get disciplines(): DisciplineDTO[] {
+    return this.interviewFormService.disciplines;
   }
 
   ngOnDestroy(): void {

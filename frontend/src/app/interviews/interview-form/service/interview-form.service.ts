@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { DateTimeInterval } from '../../model/date-time-interval';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { InterviewDTO } from '../../../api/models/interview-dto';
@@ -19,11 +19,15 @@ import { LightFieldService } from '../../../shared/validator/service/light-field
 @Injectable()
 export class InterviewFormService {
 
-  public interview: FullInterviewInfoDTO = {
+  public interview: FullInterviewInfoDTO;
+  public disciplines: DisciplineDTO[] = [];
+
+  private emptyInterview: FullInterviewInfoDTO = {
     candidate: new CandidateBaseInfoDTO(),
     disciplineSet: [new DisciplineBaseInfoDTO()],
     interviewerSet: [new UserBaseInfoDTO()]
   };
+
   public interval: DateTimeInterval = new DateTimeInterval();
   public interviewerList: Array<UserBaseInfoDTO>;
   public interviewForm: FormGroup;
@@ -34,13 +38,16 @@ export class InterviewFormService {
 
   private readonly INTERVIEW_FORM_CONFIG = {
     'interview-create': {
-      formTitle: 'Add interview'
+      formTitle: 'Add interview',
+      initMethod: () => this.interviewForm.enable()
     },
     'interview-view': {
-      formTitle: 'View interview'
+      formTitle: 'View interview',
+      initMethod: () => this.interviewForm.disable()
     },
     'interview-update': {
-      formTitle: 'Edit interview'
+      formTitle: 'Edit interview',
+      initMethod: () => this.interviewForm.enable()
     }
   }
 
@@ -58,13 +65,27 @@ export class InterviewFormService {
   }
 
   initInterviewForm() {
-    this.initFormGroup();
     this.route.snapshot.url.forEach(element => {
       if (this.INTERVIEW_FORM_CONFIG[element.path]) {
         this.operation = element.path;
       }
     });
+    this.route.data.subscribe(data => {
+      if (data['interview']) {
+        this.interview = data['interview'];
+        this.disciplines = this.interview.disciplineSet;
+        this.showDiscipline();
+        this.interviewerList = this.interview.interviewerSet;
+        this.isInterviewersDisplay = true;
+      }
+    });
+
+    this.initTimeInterval();
+    this.interview = !this.interview ? this.emptyInterview : this.interview;
+    this.initFormGroup();
+    this.INTERVIEW_FORM_CONFIG[this.operation].initMethod();
   }
+
 
   initFormGroup() {
     this.interviewForm = this.formBuilder.group({
@@ -177,6 +198,33 @@ export class InterviewFormService {
   removeRow(index: number, title: string, interviewForm: FormGroup) {
     const control = <FormArray>interviewForm.controls[title];
     control.removeAt(index);
+  }
+
+  initTimeInterval() {
+    if (this.interview) {
+      this.interval.startDate = new Date(this.interview.startTime);
+      this.interval.endDate = new Date(this.interview.endTime);
+      this.interval.startStringDate = this.convertDateToString(this.interval.startDate);
+      this.interval.endStringDate = this.convertDateToString(this.interval.endDate);
+    } else {
+      this.interval.startDate = new Date();
+      this.interval.startDate.setMinutes(0);
+      this.interval.endDate = new Date();
+      this.interval.endDate.setHours(this.interval.startDate.getHours() + 1);
+      this.interval.endDate.setMinutes(0);
+      this.interval.startStringDate = this.convertDateToString(new Date());
+      this.interval.endStringDate = this.convertDateToString(new Date());
+
+    }
+  }
+
+  convertDateToString(date: Date) {
+    return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, -5);
+  }
+
+  fetchDisciplines(disciplines: DisciplineDTO[]) {
+    this.interviewForm.controls.discipline.value.id = disciplines[0].id;
+    this.disciplines = disciplines;
   }
 
 }
