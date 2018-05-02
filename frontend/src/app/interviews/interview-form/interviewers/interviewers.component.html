@@ -1,5 +1,5 @@
-<span class="bold">Select interviewers:</span>
-<span (click)="additionInterviewer()">
+<span class="bold">Interviewers:</span>
+<span *ngIf="isPlusButtonShow" (click)="additionInterviewer()">
   <i class="fa fa-plus text-info h6 link"></i>
 </span>
 <form [formGroup]="interviewForm">

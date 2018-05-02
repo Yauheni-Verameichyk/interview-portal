@@ -57,6 +57,14 @@ export class InterviewFormComponent implements OnInit, OnDestroy {
     return this.interviewFormService.disciplines;
   }
 
+  get isInterviewerView(): boolean {
+    return this.interviewFormService.isInterviewView;
+  }
+
+  get isStatusDisplay(): boolean {
+    return this.interviewFormService.isStatusDisplay;
+  }
+
   ngOnDestroy(): void {
     document.body.style.overflowY = 'scroll';
   }

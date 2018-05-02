@@ -12,9 +12,19 @@ export class InterviewersComponent {
 
   @Input() interviewForm: FormGroup;
   @Input() interviewerList: Array<UserBaseInfoDTO>;
+  @Input() isInterviewerView: boolean;
+
   readonly messageInterviewerNotSelected: string = "Interviewer not selected!!!";
 
   constructor(private interviewFormService: InterviewFormService) { }
+
+  get isPlusButtonShow() {
+    let isPlusButton: boolean = false;
+    if (!this.isInterviewerView && this.interviewerList.length > 1 ) {
+      isPlusButton = true;
+    }
+    return isPlusButton;
+  }
 
   additionInterviewer(): void {
     const control = <FormArray>this.interviewForm.controls['interviewerSet'];

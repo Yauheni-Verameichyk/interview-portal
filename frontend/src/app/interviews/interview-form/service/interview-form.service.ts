@@ -34,20 +34,25 @@ export class InterviewFormService {
   public isDisciplineDisplay: boolean = false;
   public isInterviewersDisplay: boolean = false;
   public isSaveButtonDisplay: boolean = false;
+  public isInterviewView: boolean = false;
+  public isStatusDisplay: boolean = true;
   private operation: string = '';
 
   private readonly INTERVIEW_FORM_CONFIG = {
     'interview-create': {
       formTitle: 'Add interview',
-      initMethod: () => this.interviewForm.enable()
+      initMethod: () => this.interviewForm.enable(),
+      isElementsShow: () => this.elementsCreateShow()
     },
     'interview-view': {
       formTitle: 'View interview',
-      initMethod: () => this.interviewForm.disable()
+      initMethod: () => this.interviewForm.disable(),
+      isElementsShow: () => this.elementsViewShow()
     },
     'interview-update': {
       formTitle: 'Edit interview',
-      initMethod: () => this.interviewForm.enable()
+      initMethod: () => this.interviewForm.enable(),
+      isElementsShow: () => { }
     }
   }
 
@@ -64,32 +69,40 @@ export class InterviewFormService {
     return this.INTERVIEW_FORM_CONFIG[this.operation].formTitle;
   }
 
+  elementsViewShow() {
+    this.isInterviewView = true;
+  }
+
+  elementsCreateShow() {
+    this.isStatusDisplay = false;
+  }
+
   initInterviewForm() {
     this.route.snapshot.url.forEach(element => {
       if (this.INTERVIEW_FORM_CONFIG[element.path]) {
         this.operation = element.path;
       }
     });
-    this.route.data.subscribe(data => {
-      if (data['interview']) {
-        this.interview = data['interview'];
-        this.disciplines = this.interview.disciplineSet;
-        this.showDiscipline();
-        this.interviewerList = this.interview.interviewerSet;
-        this.isInterviewersDisplay = true;
-      }
-    });
+    this.interview = this.route.snapshot.data['interview'];
+    if (this.interview) {
+      this.disciplines = this.interview.disciplineSet;
+      this.showDiscipline();
+      this.interviewerList = this.interview.interviewerSet;
+      this.isInterviewersDisplay = true;
+    }
 
     this.initTimeInterval();
     this.interview = !this.interview ? this.emptyInterview : this.interview;
     this.initFormGroup();
     this.INTERVIEW_FORM_CONFIG[this.operation].initMethod();
+    this.INTERVIEW_FORM_CONFIG[this.operation].isElementsShow();
   }
 
 
   initFormGroup() {
     this.interviewForm = this.formBuilder.group({
       place: [this.interview.place, Validators.required],
+      status: this.interview.status || 'wait',
       candidate: this.formBuilder.group({
         id: this.interview.candidate.id || ''
       }),
@@ -121,6 +134,12 @@ export class InterviewFormService {
 
   showInterviewers() {
     this.fetchInterviewerList();
+  }
+
+  interviewersClick() {
+    if(!this.isInterviewView) {
+      this.showSaveButton();
+    }
   }
 
   showSaveButton() {
@@ -189,10 +208,16 @@ export class InterviewFormService {
     return interview;
   }
 
+  refreshDataClick() {
+    if(!this.isInterviewView) {
+      this.refreshData();
+    }
+  }
+
   refreshData() {
     if (this.isInterviewersDisplay) {
       this.fetchInterviewerList();
-    }
+    }    
   }
 
   removeRow(index: number, title: string, interviewForm: FormGroup) {
