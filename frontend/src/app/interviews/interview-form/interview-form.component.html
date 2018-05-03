@@ -15,8 +15,7 @@
       </div>
       <app-time-interval [(ngModel)]="interval" (ngModelChange)="refresh.next()" [ngModelOptions]="{standalone: true}" (click)="interviewFormService.refreshDataClick()"
         [isFormEnable]="interviewForm.enabled"></app-time-interval>
-      <app-interview-discipline *ngIf="isDisciplineDisplay" [interviewForm]="interviewForm" [disciplines]="disciplines" (change)="interviewFormService.showInterviewers()"
-        (click)="interviewFormService.refreshDataClick()"></app-interview-discipline>
+      <app-interview-discipline *ngIf="isDisciplineDisplay" [interviewForm]="interviewForm" [disciplines]="disciplines" (change)="interviewFormService.showInterviewers()"></app-interview-discipline>
       <app-interviewers *ngIf="isInterviewersDisplay" [interviewForm]="interviewForm" [interviewerList]="interviewerList" (change)="interviewFormService.showSaveButton()"
         (click)="interviewFormService.interviewersClick()" [isInterviewerView]="isInterviewerView" ></app-interviewers>
       <br>

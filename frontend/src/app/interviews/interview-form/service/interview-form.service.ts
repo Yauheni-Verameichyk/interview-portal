@@ -15,6 +15,8 @@ import { element } from 'protractor';
 import { InterviewControllerService } from '../../../api/services/interview-controller.service';
 import { PopupService } from '../../../shared/pop-up-window/popup-service/popup.service';
 import { LightFieldService } from '../../../shared/validator/service/light-field.service';
+import { InterviewersComponent } from '../interviewers/interviewers.component';
+import { DisciplineControllerService } from '../../../api/services/discipline-controller.service';
 
 @Injectable()
 export class InterviewFormService {
@@ -42,7 +44,10 @@ export class InterviewFormService {
     'interview-create': {
       formTitle: 'Add interview',
       initMethod: () => this.interviewForm.enable(),
-      isElementsShow: () => this.elementsCreateShow()
+      isElementsShow: () => this.elementsCreateShow(),
+      saveMethod: (interview) => this.interviewControllerService.addUsingPOST_1(interview),
+      successfullySaveMessage: "Interview was successfully created!!!",
+      notSuccessfullySaveMessage: "Could not create interview! Try later!"
     },
     'interview-view': {
       formTitle: 'View interview',
@@ -52,7 +57,10 @@ export class InterviewFormService {
     'interview-update': {
       formTitle: 'Edit interview',
       initMethod: () => this.interviewForm.enable(),
-      isElementsShow: () => { }
+      isElementsShow: () => this.elementsUpdateShow(),
+      saveMethod: (interview) => this.interviewControllerService.updateUsingPUT_1(interview),
+      successfullySaveMessage: "Interview was successfully updated!!!",
+      notSuccessfullySaveMessage: "Could not update interview! Try later!"
     }
   }
 
@@ -77,6 +85,10 @@ export class InterviewFormService {
     this.isStatusDisplay = false;
   }
 
+  elementsUpdateShow() {
+    this.isSaveButtonDisplay = true;
+  }
+
   initInterviewForm() {
     this.route.snapshot.url.forEach(element => {
       if (this.INTERVIEW_FORM_CONFIG[element.path]) {
@@ -85,12 +97,11 @@ export class InterviewFormService {
     });
     this.interview = this.route.snapshot.data['interview'];
     if (this.interview) {
-      this.disciplines = this.interview.disciplineSet;
+      this.disciplines = this.interview.candidate.disciplineList;
       this.showDiscipline();
       this.interviewerList = this.interview.interviewerSet;
       this.isInterviewersDisplay = true;
     }
-
     this.initTimeInterval();
     this.interview = !this.interview ? this.emptyInterview : this.interview;
     this.initFormGroup();
@@ -101,6 +112,7 @@ export class InterviewFormService {
 
   initFormGroup() {
     this.interviewForm = this.formBuilder.group({
+      id: [this.interview.id],
       place: [this.interview.place, Validators.required],
       status: this.interview.status || 'wait',
       candidate: this.formBuilder.group({
@@ -137,8 +149,8 @@ export class InterviewFormService {
   }
 
   interviewersClick() {
-    if(!this.isInterviewView) {
-      this.showSaveButton();
+    if (!this.isInterviewView && this.interviewerList.length > 0) {
+      this.switchSaveButtonDisplay();
     }
   }
 
@@ -158,10 +170,23 @@ export class InterviewFormService {
       .subscribe(specifiedTimeList => {
         this.fetchInterviewerListWithSpecifiedTime(specifiedTimeList);
         this.isInterviewersDisplay = true;
-        if (!this.interviewerList.length) {
-          this.isSaveButtonDisplay = false;
-        }
+        this.switchSaveButtonDisplay();
       })
+  }
+
+  switchSaveButtonDisplay() {
+    let interview: FullInterviewInfoDTO = this.createObject();
+    let selectInterviewCount: number = 0;
+    interview.interviewerSet.forEach(interviewer => {
+      if (interviewer.id) {
+        selectInterviewCount++;
+      }
+    });
+    if (this.interviewerList.length && selectInterviewCount) {
+      this.isSaveButtonDisplay = true;
+    } else {
+      this.isSaveButtonDisplay = false;
+    }
   }
 
   fetchInterviewerListWithSpecifiedTime(specifiedTimeList: SpecifiedTimeDTO[]) {
@@ -185,17 +210,20 @@ export class InterviewFormService {
       interview.startTime = this.interval.startStringDate;
       interview.endTime = this.interval.endStringDate;
       interview.disciplineSet = [interview.discipline];
-      interview.status = "wait";
-      this.interviewControllerService.addUsingPOST_1(interview)
+      this.INTERVIEW_FORM_CONFIG[this.operation].saveMethod(interview)
         .subscribe(body => {
-          this.popupService.displayMessage("Interview was successfully created!!!", this.router);
+          this.displayMessage(this.INTERVIEW_FORM_CONFIG[this.operation].successfullySaveMessage);
         }, (error: any) => {
-          this.popupService.displayMessage("Could not create candidate! Try later!", this.router);
+          this.displayMessage(this.INTERVIEW_FORM_CONFIG[this.operation].notSuccessfullySaveMessage);
         });
     } else {
       this.lightFieldService.lightField(this.interviewForm.controls);
       this.lightFieldService.lightArray('interviewerSet', this.interviewForm);
     }
+  }
+
+  displayMessage(message: string) {
+    this.popupService.displayMessage(message, this.router);
   }
 
   createObject(): FullInterviewInfoDTO {
@@ -209,7 +237,7 @@ export class InterviewFormService {
   }
 
   refreshDataClick() {
-    if(!this.isInterviewView) {
+    if (!this.isInterviewView) {
       this.refreshData();
     }
   }
@@ -217,7 +245,7 @@ export class InterviewFormService {
   refreshData() {
     if (this.isInterviewersDisplay) {
       this.fetchInterviewerList();
-    }    
+    }
   }
 
   removeRow(index: number, title: string, interviewForm: FormGroup) {

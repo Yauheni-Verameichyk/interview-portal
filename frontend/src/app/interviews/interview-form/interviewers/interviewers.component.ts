@@ -25,7 +25,7 @@ export class InterviewersComponent {
     }
     return isPlusButton;
   }
-
+  
   additionInterviewer(): void {
     const control = <FormArray>this.interviewForm.controls['interviewerSet'];
     control.push(this.interviewFormService.initInterviewerForm());
