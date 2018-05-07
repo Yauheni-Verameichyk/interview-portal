@@ -30,33 +30,33 @@ export class InterviewersComponent {
   }
 
   fetchInterviewerList(count: number): Array<Array<UserBaseInfoDTO>> {
-
     let interviewers = this.interviewForm.controls['interviewerSet'].value;
-    let newInterviewerList = new Array<UserBaseInfoDTO>();
-    if(!this.listOfInterviewersList[count]) {
-      this.listOfInterviewersList[count] = Array.from(this.interviewerList);
+    if (!this.listOfInterviewersList[count]) {
+      this.listOfInterviewersList[count] = this.interviewerList;
     }
-
-
-    for (let i = 0; i < this.listOfInterviewersList.length; i++) {
-      let a = this.listOfInterviewersList[i];
-      let aa: Array<UserBaseInfoDTO> = new Array<UserBaseInfoDTO>();
-      for (let j = 0; j < this.listOfInterviewersList[i].length; j++) {
-        if (i !== j) {
-          for (let k = 0; k < interviewers.length; k++) {
-            if (a[j].id !== interviewers[k].id) {
-              // a.splice(j, 1);
-              aa.push(a[j]);
-            }
-          }
+    if (!interviewers[count].id) {
+      this.listOfInterviewersList[count] = this.fetchFreeInterviewers(interviewers);
+    }
+    let a: number = interviewers.length <= this.listOfInterviewersList.length ? interviewers.length : this.listOfInterviewersList.length;
+    for (let i = 0; i < a; i++) {
+      if(i != count) {
+        let newFormInterviewers: Array<UserBaseInfoDTO> = new Array<UserBaseInfoDTO>();
+        let formInterviewers: Array<UserBaseInfoDTO> = this.listOfInterviewersList[i];
+        for (let j = 0; j < formInterviewers.length; j++) {
+          if (interviewers[i].id == formInterviewers[j].id) {
+            newFormInterviewers.push(formInterviewers[j]);
+          }          
         }
+        this.listOfInterviewersList[i] = newFormInterviewers;
       }
-      console.log(a);
-      this.listOfInterviewersList[i] = Array.from(aa);
     }
-
-
     return this.listOfInterviewersList;
+  }
+
+  fetchFreeInterviewers(selectedInterviewers: Array<UserBaseInfoDTO>): Array<UserBaseInfoDTO> {
+    return this.interviewerList.filter(interviewer => {
+      return !selectedInterviewers.some(selectedInterviewer => interviewer.id == selectedInterviewer.id);
+    });
   }
 
   additionInterviewer(): void {
