@@ -1,10 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
 import { UserBaseInfoDTO } from '../../../api/models/user-base-info-dto';
 import { InterviewFormService } from '../service/interview-form.service';
 import { element } from 'protractor';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-interviewers',
   templateUrl: './interviewers.component.html',
   styleUrls: ['./interviewers.component.css']
@@ -29,28 +30,17 @@ export class InterviewersComponent {
     return isPlusButton;
   }
 
-  fetchInterviewerList(count: number): Array<Array<UserBaseInfoDTO>> {
+  fetchInterviewerList(count: number): Array<UserBaseInfoDTO> {
     let interviewers = this.interviewForm.controls['interviewerSet'].value;
-    if (!this.listOfInterviewersList[count]) {
-      this.listOfInterviewersList[count] = this.interviewerList;
-    }
     if (!interviewers[count].id) {
       this.listOfInterviewersList[count] = this.fetchFreeInterviewers(interviewers);
+    }  else {
+      let list = this.fetchFreeInterviewers(interviewers);
+      this.additionInterviewerToList(list, interviewers[count].id);
+      this.listOfInterviewersList[count] = list;
     }
-    let a: number = interviewers.length <= this.listOfInterviewersList.length ? interviewers.length : this.listOfInterviewersList.length;
-    for (let i = 0; i < a; i++) {
-      if(i != count) {
-        let newFormInterviewers: Array<UserBaseInfoDTO> = new Array<UserBaseInfoDTO>();
-        let formInterviewers: Array<UserBaseInfoDTO> = this.listOfInterviewersList[i];
-        for (let j = 0; j < formInterviewers.length; j++) {
-          if (interviewers[i].id == formInterviewers[j].id) {
-            newFormInterviewers.push(formInterviewers[j]);
-          }          
-        }
-        this.listOfInterviewersList[i] = newFormInterviewers;
-      }
-    }
-    return this.listOfInterviewersList;
+    this.modifyInterviewerList(interviewers, count);
+    return this.listOfInterviewersList[count];
   }
 
   fetchFreeInterviewers(selectedInterviewers: Array<UserBaseInfoDTO>): Array<UserBaseInfoDTO> {
@@ -66,6 +56,30 @@ export class InterviewersComponent {
 
   remove(index: number, title: string) {
     this.interviewFormService.removeRow(index, title, this.interviewForm);
+  }
+
+  additionInterviewerToList(list: Array<UserBaseInfoDTO>, id: number) {
+    this.interviewerList.forEach(element => {
+      if (element.id == id) {
+        list.push(element);
+      }
+    });
+  }
+
+  modifyInterviewerList(interviewers: Array<UserBaseInfoDTO>, count: number) {
+    let maxValue: number = interviewers.length <= this.listOfInterviewersList.length ? interviewers.length : this.listOfInterviewersList.length;
+    for (let i = 0; i < maxValue; i++) {
+      if(i != count) {
+        let newFormInterviewers: Array<UserBaseInfoDTO> = new Array<UserBaseInfoDTO>();
+        let formInterviewers: Array<UserBaseInfoDTO> = this.listOfInterviewersList[i];
+        for (let j = 0; j < formInterviewers.length; j++) {
+          if (interviewers[i].id == formInterviewers[j].id) {
+            newFormInterviewers.push(formInterviewers[j]);
+          }          
+        }
+        this.listOfInterviewersList[i] = newFormInterviewers;
+      }
+    }
   }
 
 }
