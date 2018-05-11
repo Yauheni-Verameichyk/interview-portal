@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { UserCredentials } from '../../domain/UserCredentials';
 import { UserInfo } from '../../domain/UserInfo';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -11,17 +11,14 @@ import { UserControllerService } from '../../api/rest/service/user-controller.se
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
-export class UserComponent implements OnInit, OnDestroy {
+export class UserComponent implements OnDestroy {
   private readonly destroy: Subject<void> = new Subject();
-  @Input() userObj: UserInfo;
-  user: UserInfo;
+  @Output() private searchParameter = new EventEmitter<string>();
+  @Input() user: UserInfo;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private userController: UserControllerService) { }
-  ngOnInit() {
-    this.user = new UserInfo(this.userObj.id, this.userObj.name, this.userObj.surname, this.userObj.roles);
-  }
   showUserInfo() {
     this.router.navigate([{ outlets: { popup: ['users', this.user.id, 'info'] } }]);
   }
@@ -37,6 +34,9 @@ export class UserComponent implements OnInit, OnDestroy {
         this.router.navigate(['/users']);
       });
     }
+  }
+  selectRole(parameterRole: string) {
+    this.searchParameter.emit(parameterRole);
   }
   ngOnDestroy(): void {
     this.destroy.next();

@@ -26,7 +26,7 @@ const activatedRouterStub = {
 };
 const userControllerServiceStub = {
   deleteUser(userId: number): Observable<HttpResponse> {
-    return Observable.of(null);
+    return Observable.of(users);
   },
   getUsers(page: number): Observable<UserInfo[]> {
     return Observable.of(users);
@@ -106,8 +106,8 @@ describe('UserListComponent', () => {
   it('should get users', fakeAsync(() => {
     const spy = spyOn(userControllerServiceStub, 'getUsers')
       .and.returnValue(Observable.of(users));
-    component.ngOnInit();
     fixture.detectChanges();
+    tick(100);
     expect(component.users).toEqual(users);
   }));
   it('redirect to create user form ', fakeAsync(() => {
