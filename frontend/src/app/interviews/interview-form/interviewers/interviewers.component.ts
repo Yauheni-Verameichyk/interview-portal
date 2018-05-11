@@ -65,7 +65,6 @@ export class InterviewersComponent {
   }
 
   modifyInterviewerList(interviewers: Array<UserBaseInfoDTO>, count: number) {
-    console.log("modifyInterviewerList");
     let maxValue: number = interviewers.length <= this.listOfInterviewersList.length ? interviewers.length : this.listOfInterviewersList.length;
     for (let i = 0; i < maxValue; i++) {
       if (i != count) {
