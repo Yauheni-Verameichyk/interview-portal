@@ -32,13 +32,11 @@ export class InterviewersComponent {
 
   fetchInterviewerList(count: number): Array<UserBaseInfoDTO> {
     let interviewers = this.interviewForm.controls['interviewerSet'].value;
-    if (!interviewers[count].id) {
-      this.listOfInterviewersList[count] = this.fetchFreeInterviewers(interviewers);
-    }  else {
-      let list = this.fetchFreeInterviewers(interviewers);
+    let list = this.fetchFreeInterviewers(interviewers);
+    if (interviewers[count].id) {
       this.additionInterviewerToList(list, interviewers[count].id);
-      this.listOfInterviewersList[count] = list;
     }
+    this.listOfInterviewersList[count] = list;
     this.modifyInterviewerList(interviewers, count);
     return this.listOfInterviewersList[count];
   }
@@ -67,17 +65,11 @@ export class InterviewersComponent {
   }
 
   modifyInterviewerList(interviewers: Array<UserBaseInfoDTO>, count: number) {
+    console.log("modifyInterviewerList");
     let maxValue: number = interviewers.length <= this.listOfInterviewersList.length ? interviewers.length : this.listOfInterviewersList.length;
     for (let i = 0; i < maxValue; i++) {
-      if(i != count) {
-        let newFormInterviewers: Array<UserBaseInfoDTO> = new Array<UserBaseInfoDTO>();
-        let formInterviewers: Array<UserBaseInfoDTO> = this.listOfInterviewersList[i];
-        for (let j = 0; j < formInterviewers.length; j++) {
-          if (interviewers[i].id == formInterviewers[j].id) {
-            newFormInterviewers.push(formInterviewers[j]);
-          }          
-        }
-        this.listOfInterviewersList[i] = newFormInterviewers;
+      if (i != count) {
+        this.listOfInterviewersList[i] = this.listOfInterviewersList[i].filter(element => interviewers[i].id == element.id);
       }
     }
   }
