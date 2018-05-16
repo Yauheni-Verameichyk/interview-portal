@@ -12,6 +12,7 @@ import { filter } from 'rxjs/operators/filter';
 
 import { UserDTO } from '../models/user-dto';
 import { UserInfo } from '../../domain/UserInfo';
+import { UserBaseInfoDTO } from '../models/user-base-info-dto';
 
 /**
  * User Controller
@@ -162,7 +163,59 @@ export class UserControllerService extends BaseService {
     console.log(errorMessage);
     return Observable.throw(errorMessage);
   }
+
+  findByDisciplineAndTimeRangeUsingGETResponse(params: UserControllerService.FindByDisciplineAndTimeRangeUsingGETParams): Observable<HttpResponse<UserBaseInfoDTO[]>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      "GET",
+      this.rootUrl + `/users/interviewers/${params.rangeStart}/${params.rangeEnd}/${params.disciplineId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      filter(_r => _r instanceof HttpResponse),
+      map(_r => {
+        let _resp = _r as HttpResponse<any>;
+        let _body: UserBaseInfoDTO[] = null;
+        _body = _resp.body as UserBaseInfoDTO[]
+        return _resp.clone({body: _body}) as HttpResponse<UserBaseInfoDTO[]>;
+      })
+    );
+  }
+
+    findByDisciplineAndTimeRangeUsingGET(params: UserControllerService.FindByDisciplineAndTimeRangeUsingGETParams): Observable<UserBaseInfoDTO[]> {
+    return this.findByDisciplineAndTimeRangeUsingGETResponse(params).pipe(
+      map(_r => _r.body)
+    );
+  }
+
 } 
 
 export module UserControllerService {
+
+  export interface FindByDisciplineAndTimeRangeUsingGETParams {
+
+    /**
+     * rangeStart
+     */
+     rangeStart: string;
+
+    /**
+     * rangeEnd
+     */
+     rangeEnd: string;
+
+    /**
+     * disciplineId
+     */
+     disciplineId: number;
+  }
+
 }

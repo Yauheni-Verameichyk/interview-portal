@@ -16,9 +16,9 @@
       </div>
       <app-discipline-search (emitDisciplines)="receiveDisciplinesFromSearch($event)"></app-discipline-search>&nbsp;&nbsp;
     </div>
-    <div class="tree-list">
-      <tree-root class="expand-tree" [nodes]="disciplinesList" [options]="options"></tree-root>
-    </div>
+      <div class="tree-list">
+        <tree-root class="expand-tree" [nodes]="disciplinesList" [options]="options"></tree-root>
+      </div>
   </div>
   <app-discipline [discipline]="activeDiscipline"></app-discipline>
 </div>

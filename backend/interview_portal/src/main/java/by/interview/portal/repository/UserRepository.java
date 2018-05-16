@@ -43,7 +43,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
             @Param("discipline") Discipline discipline);
 
     @Query(nativeQuery = true,
-            value = "SELECT DISTINCT * FROM select_available_time_by_discipline( :rangeStart, :rangeEnd, :disciplineId) as st join users on st.user_id = users.id")
+            value = "SELECT DISTINCT users.id, users.name, users.surname, users.email, users.phone_number, users.login, users.password  FROM select_available_time_by_discipline( :rangeStart, :rangeEnd, :disciplineId) as st join users on st.user_id = users.id")
     List<User> findAvailableInterviewers(@Param("rangeStart") LocalDateTime rangeStart,
             @Param("rangeEnd") LocalDateTime rangeEnd, @Param("disciplineId") Long disciplineId);
 

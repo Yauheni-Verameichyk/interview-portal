@@ -1,6 +1,6 @@
 /* tslint:disable */
 
-export class DisciplineDTO {
+export class InterviewDisciplineDTO {
 
   id?: number;
 

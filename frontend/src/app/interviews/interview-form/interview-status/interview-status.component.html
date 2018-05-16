@@ -1,0 +1,32 @@
+<div [formGroup]="interviewForm">
+  <span class="bold">Status: </span>
+  <span>{{interviewForm.controls.status.value.name}}</span>
+  <a *ngIf="!isNewInterview" data-toggle="collapse" href="#statusCollapse" role="button" aria-expanded="false" aria-controls="statusCollapse">
+    edit
+  </a>
+  <div formGroupName="status">
+    <div class="collapse shadow" id="statusCollapse">
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="id" id="wait-status" value="1" formControlName="id" 
+        [checked]="interviewForm.controls.status.value.id == 1">
+        <label class="form-check-label" for="wait-status">
+          wait
+        </label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="id" id="success-status" value="2" formControlName="id" 
+        [checked]="interviewForm.controls.status.value.id == 2">
+        <label class="form-check-label" for="success-status">
+          success
+        </label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="id" id="fail-status" value="3" formControlName="id" 
+        [checked]="interviewForm.controls.status.value.id == 3">
+        <label class="form-check-label" for="fail-status">
+          fail
+        </label>
+      </div>
+    </div>
+  </div>
+</div>

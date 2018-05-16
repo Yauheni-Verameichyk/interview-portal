@@ -9,12 +9,9 @@ import { Subject } from 'rxjs';
   templateUrl: './interview-discipline.component.html',
   styleUrls: ['./interview-discipline.component.css']
 })
-export class InterviewDisciplineComponent {
+export class InterviewDisciplineComponent{
 
   @Input() interviewForm: FormGroup;
   @Input() disciplines: DisciplineDTO[];
-  private readonly destroy: Subject<void> = new Subject();
-
-  constructor() { }
 
 }
