@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -45,7 +43,7 @@ public class UserController {
 
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping
-    public Set<UserBaseInfoDTO> findAll(
+    public List<UserBaseInfoDTO> findAll(
         @RequestParam(name = "quantity", defaultValue = "0") Integer quantity,
         @RequestParam(name = "parameters", defaultValue = "") String parameters ) {
             LOG.log(Level.getLevel("WORKLEVEL"), "Find users, with limit: " + quantity + "/n"+
@@ -73,7 +71,7 @@ public class UserController {
         LOG.log(Level.getLevel("WORKLEVEL"), "Delete user by id: " + id);
         userFacade.delete(id);
     }
-
+    
     @GetMapping("/interviewers/{rangeStart}/{rangeEnd}/{disciplineId}")
     public List<UserBaseInfoDTO> findByDisciplineAndTimeRange(@PathVariable @DateTimeFormat(
         pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime rangeStart,
@@ -82,5 +80,6 @@ public class UserController {
         @PathVariable Long disciplineId) {
         return userFacade.findByDisciplineAndTimeRange(rangeStart, rangeEnd, disciplineId);
     }
+
 }
 

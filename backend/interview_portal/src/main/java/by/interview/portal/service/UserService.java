@@ -27,4 +27,8 @@ public interface UserService {
 
     List<User> findByDisciplineAndTimeRange(LocalDateTime rangeStart, LocalDateTime rangeEnd,
         Long disciplineId);
+
+    List<User> findByDisciplineAndTimeRange(LocalDateTime rangeStart, LocalDateTime rangeEnd,
+        Long disciplineId);
+        
 }

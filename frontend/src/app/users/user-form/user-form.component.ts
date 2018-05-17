@@ -9,6 +9,7 @@ import { UserFormMangerService } from '../../shared/select-role/service/user-for
 import 'rxjs/add/operator/takeUntil';
 import { FormValidatorService } from '../../shared/validator/validator-form/form-validator.service';
 import { LightFieldService } from '../../shared/validator/service/light-field.service';
+import { PopupService } from '../../shared/pop-up-window/popup-service/popup.service';
 
 @Component({
   selector: 'app-user-form',
@@ -41,7 +42,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
     private formManager: UserFormMangerService,
     private router: Router,
     private formValidator: FormValidatorService,
-    private lightFieldService: LightFieldService
+    private lightFieldService: LightFieldService,
+    private popupService: PopupService
   ) { }
 
   ngOnInit(): void {
@@ -97,8 +99,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
       this.userController.saveUser(this.user)
         .takeUntil(this.destroy)
         .subscribe(() => {
-          alert('User was successfully save');
           this.router.navigate(['users']);
+          this.popupService.displayMessage('User was saved', this.router);
         },
           () => {
             alert('User was not successfully save');
