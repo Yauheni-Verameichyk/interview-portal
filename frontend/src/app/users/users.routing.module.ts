@@ -10,7 +10,8 @@ import { UserSearchComponent } from './user-search/user-search.component';
 const routes: Routes = [
   {
     path: 'users',
-    component: UserListComponent
+    component: UserListComponent,
+    runGuardsAndResolvers: 'always'
   },
   {
     path: 'users/:id/info',

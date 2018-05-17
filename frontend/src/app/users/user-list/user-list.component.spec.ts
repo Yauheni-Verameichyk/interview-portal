@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed, inject, fakeAsync, tick } from '@angu
 import { UserListComponent } from './user-list.component';
 import { Observable } from 'rxjs/Observable';
 import { HttpResponse } from 'selenium-webdriver/http';
-import { NavigationExtras, Router } from '@angular/router';
+import { NavigationExtras, Router, NavigationEnd } from '@angular/router';
 import { AuthenticationService } from '../../service/authentication/authentication.service';
 import { SharedModule } from '../../shared/shared.module';
 import { User } from '../../domain/User';
@@ -13,10 +13,21 @@ import { UserControllerService } from '../../api/rest/service/user-controller.se
 import { AsyncAction } from 'rxjs/scheduler/AsyncAction';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UserFormComponent } from '../user-form/user-form.component';
+import { PopupService } from '../../shared/pop-up-window/popup-service/popup.service';
+import { Subject } from 'rxjs';
 
-const routerStub = {
-  navigate: jasmine.createSpy('navigate'),
-  navigateByUrl(url: string) { return url; }
+class RouterStub {
+  subject = new Subject<any>();
+  events = this.subject.asObservable();
+  navigate(commands: any[]) {
+    jasmine.createSpy('navigate');
+  }
+  initialNavigation() {
+    this.subject.next(new NavigationEnd(1, 'awe', 'popup:message'));
+  }
+}
+const popupServiceStub = {
+
 };
 const activatedRouterStub = {
   params: Observable.of(),
@@ -73,9 +84,10 @@ describe('UserListComponent', () => {
       declarations: [UserListComponent, UserFormComponent, ],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
-        { provide: Router, useValue: routerStub },
+        { provide: Router, useClass: RouterStub },
         { provide: UserControllerService, useValue: userControllerServiceStub },
         { provide: AuthenticationService, useValue: authServiceStub },
+        {provide: PopupService, useValue: popupServiceStub }
       ],
       imports: [
         SharedModule,
@@ -109,9 +121,5 @@ describe('UserListComponent', () => {
     fixture.detectChanges();
     tick(100);
     expect(component.users).toEqual(users);
-  }));
-  it('redirect to create user form ', fakeAsync(() => {
-    routerStub.navigate([{ outlets: { popup: ['users', 'new'] } }]);
-    expect(routerStub.navigate).toHaveBeenCalledWith([{ outlets: { popup: ['users', 'new'] } }]);
   }));
 });

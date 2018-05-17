@@ -58,7 +58,7 @@
         <div *ngIf='isInfo'>
           <div *requiredAuthority="'USER_EDIT'">
             <button *ngIf="!user.id" type="button" class="btn btn-success" (click)="saveForm()">Save</button>
-            <button *ngIf="user.id" type="button" class="btn btn-success" (click)="saveForm()">Edit</button>
+            <button *ngIf="user.id" type="button" class="btn btn-success" (click)="saveForm()">Save</button>
           </div>
         </div>
 

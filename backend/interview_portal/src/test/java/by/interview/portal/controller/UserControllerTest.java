@@ -68,9 +68,7 @@ public class UserControllerTest {
     @Test
     public void shouldReturnAllUsersList() throws Exception {
         given(userFacade.findAllUserBaseInfo(0, ""))
-            .willReturn(Arrays.asList(userBaseInfoDTO)
-                .stream()
-                .collect(Collectors.toSet()));
+            .willReturn(Arrays.asList(userBaseInfoDTO));
         mvc.perform(get("/users").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].name", is(userBaseInfoDTO.getName())))
@@ -89,9 +87,7 @@ public class UserControllerTest {
     @Test
     public void shouldReturnUsersBySearchParameters() throws Exception {
         given(userFacade.findAllUserBaseInfo(0, "userRoleDisciplines%23DISCIPLINE_HEAD"))
-            .willReturn(Arrays.asList(userBaseInfoDTO)
-                .stream()
-                .collect(Collectors.toSet()));
+            .willReturn(Arrays.asList(userBaseInfoDTO));
         mvc.perform(get("/users")
             .param("quantity", "0")
             .param("parameters", "userRoleDisciplines%23DISCIPLINE_HEAD" )

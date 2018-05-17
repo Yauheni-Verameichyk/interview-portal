@@ -60,7 +60,7 @@ export class CandidateListComponent implements OnInit, OnDestroy {
         }
       }, error => console.log(`Error in candidates list component typy error: ${error}`));
   }
-
+  
   updateCandidateList() {
     this.isLoaded = false;
     this.isNecessaryLoadding = true;

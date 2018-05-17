@@ -21,8 +21,8 @@ export class UserSearchComponent implements OnInit {
   isDisciplineHead = true;
   isInterviewer = true;
   isHumanResource = true;
+  isOrder = true;
   userName = '';
-  private keyUp = new Subject<string>();
 
   ngOnInit(): void {
     // you listen to values here which are debounced
@@ -31,13 +31,14 @@ export class UserSearchComponent implements OnInit {
   }
 
   searchByParameters(): void {
+    const separator = this.isChosen() ? ';' : '';
     if (this.userName.length > 0) {
-      const separator = this.isChosen() ? ';' : '';
-      const searchString = `OR##name:${this.userName};OR##surname:${this.userName}${separator}${this.concatParameters()}`;
+      const searchString = `OR##name:${this.userName};OR##surname:${this.userName};
+        AND##name!${this.checkOrder()}${separator}${this.concatParameters()}`;
       // send every value from the inner to the subject
       this.expectationTime.next(searchString);
     } else {
-      const searchString = `${this.concatParameters()}`;
+      const searchString = `AND##name!${this.checkOrder()}${separator}${this.concatParameters()}`;
       // send every value from the inner to the subject
       this.expectationTime.next(searchString);
     }
@@ -45,7 +46,7 @@ export class UserSearchComponent implements OnInit {
   }
   concatParameters() {
     if (this.isChosen()) {
-      const roles = new Array;
+      const roles = [];
       if (this.isCoordinator) {
         roles.push('COORDINATOR');
       }
@@ -77,4 +78,12 @@ export class UserSearchComponent implements OnInit {
     this.userName = '';
     this.searchByParameters();
   }
+  private checkOrder(): string {
+    return this.isOrder ? 'ASC' : 'DESC';
+  }
+  reverse() {
+    this.isOrder = this.isOrder ? false : true;
+    this.searchByParameters();
+  }
+
 }

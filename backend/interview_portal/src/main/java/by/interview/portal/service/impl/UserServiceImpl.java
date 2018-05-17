@@ -31,10 +31,10 @@ public class UserServiceImpl implements UserService {
     private UserRoleDisciplineRepository userRoleDisciplineRepository;
 
     @Override
-    public Set<User> findAll(Integer quantity, String searchParameters) {
+    public List<User> findAll(Integer quantity, String searchParameters) {
         int pageCount = (int) Math.ceil(quantity.doubleValue() / QUANTITY_ELEMENTS_IN_PAGE.doubleValue());
         return userRepository.findAll(SearchUtils.getSearchSpecifications(searchParameters), PageRequest.of(pageCount, QUANTITY_ELEMENTS_IN_PAGE))
-                .getContent().stream().collect(Collectors.toSet());
+                .getContent().stream().collect(Collectors.toList());
     }
 
     @Override
