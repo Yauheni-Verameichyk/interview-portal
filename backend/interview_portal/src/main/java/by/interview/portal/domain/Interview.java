@@ -32,9 +32,6 @@ public class Interview {
     @Column(name = "id", columnDefinition = "bigserial")
     private Long id;
 
-    @Column(name = "description", length = 200)
-    private String description;
-
     @Column(name = "start_time")
     private LocalDateTime startTime;
 
@@ -52,7 +49,9 @@ public class Interview {
 
     private String feedback;
 
-    private String status;
+    @ManyToOne
+    @JoinColumn(name = "status_id")
+    private InterviewStatus status;
 
     @ManyToMany
     @JoinTable(name = "interviews_users", joinColumns = {@JoinColumn(name = "interview_id")},

@@ -97,7 +97,7 @@ export class InterviewControllerService extends BaseService {
    * @param interview interview
    */
    addUsingPOST_1(interview: FullInterviewInfoDTO): Observable<void> {
-    interview.status = "wait";
+    interview.status.id = 1;
     return this.addUsingPOST_1Response(interview).pipe(
       map(_r => _r.body)
     );

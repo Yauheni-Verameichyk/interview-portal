@@ -1,0 +1,11 @@
+<div *ngIf="!isNewInterview" [formGroup]="interviewForm">
+  <span class="bold">Feetback: </span>
+  <span>{{interviewForm.controls.feedback.value | slice:0:15}}</span>
+  <span *ngIf="interviewForm.controls.feedback.value.length > 15">...</span>
+  <a data-toggle="collapse" href="#feedbackCollapse" role="button" aria-expanded="false" aria-controls="feedbackCollapse">
+    edit
+  </a>
+  <div class="collapse" id="feedbackCollapse">
+    <textarea class="form-control" rows="7" formControlName="feedback"></textarea>
+  </div>
+</div>

@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -77,5 +78,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll(SearchUtils.getSearchSpecifications(searchParameters))
             .stream()
             .collect(Collectors.toSet());
+    }
+
+    @Override
+    public List<User> findByDisciplineAndTimeRange(LocalDateTime rangeStart, LocalDateTime rangeEnd,
+        Long disciplineId) {
+        return userRepository.findAvailableInterviewers(rangeStart, rangeEnd,
+            disciplineId);
     }
 }

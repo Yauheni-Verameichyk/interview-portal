@@ -1,5 +1,6 @@
 package by.interview.portal.facade;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -21,4 +22,6 @@ public interface UserFacade {
 
     void delete(Long userId);
 
+    List<UserBaseInfoDTO> findByDisciplineAndTimeRange(LocalDateTime rangeStart, LocalDateTime rangeEnd,
+        Long disciplineId);
 }

@@ -3,6 +3,8 @@ import { DisciplineBaseInfoDTO } from './discipline-base-info-dto';
 import { UserBaseInfoDTO } from './user-base-info-dto';
 import { DisciplineMark } from './discipline-mark';
 import { CandidateDTO } from './candidate-dto';
+import { InterviewStatus } from './interview-status';
+import { InterviewDisciplineDTO } from './interview-discipline-dto';
 
 export class FullInterviewInfoDTO {
 
@@ -10,9 +12,9 @@ export class FullInterviewInfoDTO {
 
   candidate?: CandidateDTO;
 
-  disciplineSet?: DisciplineBaseInfoDTO[];
+  disciplineSet?: InterviewDisciplineDTO[];
 
-  discipline?: DisciplineBaseInfoDTO;
+  discipline?: InterviewDisciplineDTO;
 
   endTime?: string;
 
@@ -30,5 +32,6 @@ export class FullInterviewInfoDTO {
 
   startTime?: string;
 
-  status?: string;
+  status?: InterviewStatus;
+  
 }

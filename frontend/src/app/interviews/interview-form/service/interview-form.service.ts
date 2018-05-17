@@ -7,34 +7,37 @@ import { FullInterviewInfoDTO } from '../../../api/models/full-interview-info-dt
 import { CandidateBaseInfoDTO } from '../../../api/models/candidate-base-info-dto';
 import { CandidateControllerService } from '../../../api/services/candidate-controller.service';
 import { DisciplineBaseInfoDTO } from '../../../api/models/discipline-base-info-dto';
-import { DisciplineDTO } from '../../../api/models/discipline-dto';
 import { UserBaseInfoDTO } from '../../../api/models/user-base-info-dto';
-import { SpecifiedTimeControllerService } from '../../../api/services/specified-time-controller.service';
-import { SpecifiedTimeDTO } from '../../../api/models/specified-time-dto';
 import { InterviewControllerService } from '../../../api/services/interview-controller.service';
 import { PopupService } from '../../../shared/pop-up-window/popup-service/popup.service';
 import { LightFieldService } from '../../../shared/validator/service/light-field.service';
 import { InterviewersComponent } from '../interviewers/interviewers.component';
 import { DisciplineControllerService } from '../../../api/services/discipline-controller.service';
+import { UserControllerService } from '../../../api/services/user-controller.service';
+import { InterviewStatus } from '../../../api/models/interview-status';
+import { InterviewDisciplineDTO } from '../../../api/models/interview-discipline-dto';
 
 @Injectable()
 export class InterviewFormService {
 
   public interview: FullInterviewInfoDTO;
-  public disciplines: DisciplineDTO[] = [];
+  public disciplines: InterviewDisciplineDTO[] = [];
 
   private emptyInterview: FullInterviewInfoDTO = {
     candidate: new CandidateBaseInfoDTO(),
     disciplineSet: [new DisciplineBaseInfoDTO()],
-    interviewerSet: [new UserBaseInfoDTO()]
+    interviewerSet: [new UserBaseInfoDTO()],
+    status: new InterviewStatus()
   };
 
   public interval: DateTimeInterval = new DateTimeInterval();
   public interviewerList: Array<UserBaseInfoDTO> = [];
+  public tempInterviewList: Array<UserBaseInfoDTO>;
   public interviewForm: FormGroup;
   public isDisciplineDisplay: boolean = false;
   public isInterviewersDisplay: boolean = false;
   public isSaveButtonDisplay: boolean = false;
+  public isNewInterview: boolean = false;
   public isInterviewView: boolean = false;
   public isStatusDisplay: boolean = true;
   private operation: string = '';
@@ -54,7 +57,7 @@ export class InterviewFormService {
       isElementsShow: () => this.elementsViewShow()
     },
     'interview-update': {
-      formTitle: 'Edit interview',
+      formTitle: 'Interview Info',
       initMethod: () => this.interviewForm.enable(),
       isElementsShow: () => this.elementsUpdateShow(),
       saveMethod: (interview) => this.interviewControllerService.updateUsingPUT_1(interview),
@@ -67,7 +70,7 @@ export class InterviewFormService {
     private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
-    private specifiedTimeControllerService: SpecifiedTimeControllerService,
+    private userControllerService: UserControllerService,
     private interviewControllerService: InterviewControllerService,
     private popupService: PopupService,
     private lightFieldService: LightFieldService) { }
@@ -82,6 +85,7 @@ export class InterviewFormService {
 
   elementsCreateShow() {
     this.isStatusDisplay = false;
+    this.isNewInterview = true;
   }
 
   elementsUpdateShow() {
@@ -89,16 +93,16 @@ export class InterviewFormService {
   }
 
   setInterviewerList(interview: FullInterviewInfoDTO) {
-    this.specifiedTimeControllerService
-    .findAllInRangeUsingGET({
-      disciplineId: this.interview.disciplineSet[0].id,
-      rangeEnd: this.interview.endTime,
-      rangeStart: this.interview.startTime
-    })
-    .subscribe(specifiedTimeList => {
-      this.interviewerList = this.interview.interviewerSet;
-      Array.prototype.push.apply(this.interviewerList, this.fetchInterviewerListWithSpecifiedTime(specifiedTimeList));
-    });
+    this.userControllerService
+      .findByDisciplineAndTimeRangeUsingGET({
+        disciplineId: this.interview.disciplineSet[0].id,
+        rangeEnd: this.interview.endTime,
+        rangeStart: this.interview.startTime
+      })
+      .subscribe(interviewerList => {
+        this.interviewerList = this.interview.interviewerSet;
+        Array.prototype.push.apply(this.interviewerList, interviewerList);
+      });
   }
 
   initInterviewForm() {
@@ -109,6 +113,7 @@ export class InterviewFormService {
     });
     this.interview = this.route.snapshot.data['interview'];
     if (this.interview) {
+      this.tempInterviewList = Array.from(this.interview.interviewerSet);
       this.disciplines = this.interview.candidate.disciplineList;
       this.showDiscipline();
       this.isInterviewersDisplay = true;
@@ -126,12 +131,21 @@ export class InterviewFormService {
     this.interviewForm = this.formBuilder.group({
       id: [this.interview.id],
       place: [this.interview.place, Validators.required],
-      status: this.interview.status || 'wait',
+      feedback: [this.interview.feedback || ''],
+      finalMark: [this.interview.finalMark],
+      status: this.formBuilder.group({
+        id: this.interview.status.id || 1,
+        name: this.interview.status.name || 'wait'
+      }),
       candidate: this.formBuilder.group({
         id: this.interview.candidate.id || ''
       }),
       discipline: this.formBuilder.group({
-        id: this.interview.disciplineSet[0].id || ''
+        id: this.interview.disciplineSet[0].id || '',
+        name: this.interview.disciplineSet[0].name || '',
+        hasChildren: this.interview.disciplineSet[0].hasChildren || false,
+        isExpanded: true,
+        mark: this.interview.finalMark
       }),
       interviewerSet: this.formBuilder.array(this.initInterviewerFormList())
     });
@@ -173,14 +187,22 @@ export class InterviewFormService {
   }
 
   fetchInterviewerList() {
-    this.specifiedTimeControllerService
-      .findAllInRangeUsingGET({
+    this.userControllerService
+      .findByDisciplineAndTimeRangeUsingGET({
         disciplineId: this.interviewForm.controls.discipline.value.id,
         rangeEnd: this.interval.endStringDate,
         rangeStart: this.interval.startStringDate
       })
-      .subscribe(specifiedTimeList => {
-        this.interviewerList = this.fetchInterviewerListWithSpecifiedTime(specifiedTimeList);
+      .subscribe(interviewerList => {
+        if (this.isNewInterview) {
+          this.interviewerList = interviewerList;
+        } else {
+          this.interviewerList = Array.from(this.tempInterviewList);
+          let newList = interviewerList.filter(interviewer => {
+            return !this.tempInterviewList.some(element => interviewer.id == element.id);
+          });
+          Array.prototype.push.apply(this.interviewerList, newList);
+        }
         this.isInterviewersDisplay = true;
         this.switchSaveButtonDisplay();
       })
@@ -199,22 +221,6 @@ export class InterviewFormService {
     } else {
       this.isSaveButtonDisplay = false;
     }
-  }
-
-  fetchInterviewerListWithSpecifiedTime(specifiedTimeList: SpecifiedTimeDTO[]): Array<UserBaseInfoDTO> {
-    let interviewers = new Array<UserBaseInfoDTO>();
-    specifiedTimeList.forEach(specifiedTimeDTO => {
-      let unique: number = 0;
-      interviewers.forEach(element => {
-        if (element.id === specifiedTimeDTO.user.id) {
-          unique++;
-        }
-      });
-      if (!unique) {
-        interviewers.push(specifiedTimeDTO.user);
-      }
-    });
-    return interviewers;
   }
 
   saveInterview() {
@@ -280,7 +286,6 @@ export class InterviewFormService {
       this.interval.endDate.setMinutes(0);
       this.interval.startStringDate = this.convertDateToString(new Date());
       this.interval.endStringDate = this.convertDateToString(new Date());
-
     }
   }
 
@@ -288,7 +293,7 @@ export class InterviewFormService {
     return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, -5);
   }
 
-  fetchDisciplines(disciplines: DisciplineDTO[]) {
+  fetchDisciplines(disciplines: InterviewDisciplineDTO[]) {
     this.interviewForm.controls.discipline.value.id = disciplines[0].id;
     this.disciplines = disciplines;
   }

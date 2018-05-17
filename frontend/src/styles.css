@@ -388,3 +388,7 @@ tbody:hover {
 .expand-tree div.angular-tree-component>tree-node>div::before {
   left: 14px
 }
+
+.bold {
+  font-weight:bold;
+}

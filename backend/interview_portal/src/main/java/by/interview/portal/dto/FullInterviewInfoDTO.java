@@ -1,6 +1,7 @@
 package by.interview.portal.dto;
 
 import by.interview.portal.domain.DisciplineMark;
+import by.interview.portal.domain.InterviewStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,8 +17,6 @@ public class FullInterviewInfoDTO {
 
     private Long id;
 
-    private String description;
-
     private LocalDateTime startTime;
 
     private LocalDateTime endTime;
@@ -30,11 +29,11 @@ public class FullInterviewInfoDTO {
 
     private String feedback;
 
-    private String status;
+    private InterviewStatus status;
 
     private Set<UserBaseInfoDTO> interviewerSet;
 
-    private Set<DisciplineBaseInfoDTO> disciplineSet;
+    private Set<DisciplineDTO> disciplineSet;
 
     private List<DisciplineMark> markList;
 

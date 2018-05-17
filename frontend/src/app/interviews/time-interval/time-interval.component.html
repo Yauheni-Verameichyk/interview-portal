@@ -1,15 +1,17 @@
 <div class="date-time-interval">
   <span class="bold">Time of the interview:</span>
-  <i class="ion-loop text-info h6 link" (click)="selectToday()" *ngIf="isFormEnable"></i>
-  <div *ngIf="isFormEnable;else elseBlock">
+  <span>{{interval.startDate | date:"dd/MM/yyyy"}} {{interval.startDate | date:"hh:mma" | lowercase}} - {{interval.endDate | date:"hh:mma"
+      | lowercase}} </span>
+  <a data-toggle="collapse" href="#collapseDate" role="button" aria-expanded="false" aria-controls="collapseDate">
+    edit
+  </a>
+  <div class="collapse" id="collapseDate">
     <div>
       <span>Date:</span>
       <span class="tab">Start time:</span>
       <br>
-      <ngb-datepicker #dp [(ngModel)]="dateModel" [startDate]="dateModel" [minDate]="minDate" (navigate)="date = $event.next" [ngModelOptions]="{standalone: true}" (ngModelChange)="refreshDate()"></ngb-datepicker>
-      <!-- <ngb-datepicker #dp [(ngModel)]="dateModel" [startDate]="dateModel" (navigate)="date = $event.next" [ngModelOptions]="{standalone: true}" (ngModelChange)="refreshDate()"></ngb-datepicker> -->
-     
-      
+      <ngb-datepicker #dp [(ngModel)]="dateModel" [startDate]="dateModel" [minDate]="minDate" (navigate)="date = $event.next" [ngModelOptions]="{standalone: true}"
+        (ngModelChange)="refreshDate()"></ngb-datepicker>
     </div>
     <div class="time">
       <ngb-timepicker [(ngModel)]="startTimeModel" [ngModelOptions]="{standalone: true}" (ngModelChange)="refreshStartTime()" readonlyInputs="true"
@@ -20,6 +22,3 @@
     </div>
   </div>
 </div>
-<ng-template #elseBlock>
-  {{interval.startDate | date:"dd/MM/yyyy"}} {{interval.startDate | date:"hh:mma" | lowercase}} - {{interval.endDate | date:"hh:mma"  | lowercase}}
-</ng-template>

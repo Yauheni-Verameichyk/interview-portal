@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import by.interview.portal.service.DisciplineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,9 @@ public class InterviewFacadeImpl implements InterviewFacade {
 
     @Autowired
     private InterviewService interviewService;
+
+    @Autowired
+    private DisciplineService disciplineService;
 
     @Autowired
     @Qualifier("interviewDTOConverter")
@@ -47,7 +51,9 @@ public class InterviewFacadeImpl implements InterviewFacade {
 
     @Override
     public FullInterviewInfoDTO findById(Long id) {
-        return fullInterviewInfoConverter.convertToDTO(interviewService.findById(id));
+        FullInterviewInfoDTO interviewDTO = fullInterviewInfoConverter.convertToDTO(interviewService.findById(id));
+        disciplineService.defineChildrenPresence(interviewDTO.getDisciplineSet());
+        return interviewDTO;
     }
 
     @Override

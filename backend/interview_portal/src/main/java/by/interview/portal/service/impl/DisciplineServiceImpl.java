@@ -132,7 +132,8 @@ public class DisciplineServiceImpl implements DisciplineService {
         return disciplineDTOs;
     }
 
-    private void defineChildrenPresence(Collection<DisciplineDTO> disciplineDTOs) {
+    @Override
+    public void defineChildrenPresence(Collection<DisciplineDTO> disciplineDTOs) {
         for (DisciplineDTO discipline : disciplineDTOs) {
             discipline.setHasChildren(
                     disciplineRepository.findAllByParentId(discipline.getId()).size() > 0);
