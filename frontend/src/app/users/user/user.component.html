@@ -1,9 +1,9 @@
 <tr>
-    <td (click)="showUserInfo()">
+    <td class='cursor'(click)="showUserInfo()">
         {{user.name}}</td>
-    <td (click)="showUserInfo()">{{user.surname}}</td>
+    <td class='cursor' (click)="showUserInfo()">{{user.surname}}</td>
     <td>
-        <span *ngFor="let role of user.roles" [appHighLightRole]="role" class="common-for-role" (click)="selectRole(role)">
+        <span *ngFor="let role of user.roles" [appHighLightRole]="role" class="common-for-role cursor wibro" (click)="selectRole(role)">
         </span>
     </td>
     <td *requiredAuthority="'USER_EDIT'">

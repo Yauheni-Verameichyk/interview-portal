@@ -43,7 +43,7 @@ public class UserController {
 
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping
-    public Set<UserBaseInfoDTO> findAll(
+    public List<UserBaseInfoDTO> findAll(
         @RequestParam(name = "quantity", defaultValue = "0") Integer quantity,
         @RequestParam(name = "parameters", defaultValue = "") String parameters ) {
             LOG.log(Level.getLevel("WORKLEVEL"), "Find users, with limit: " + quantity + "/n"+

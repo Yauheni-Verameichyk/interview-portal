@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SpecificationImpl<T> implements Specification<T> {
-
     private static final long serialVersionUID = 3416208150948783433L;
     private SearchCriteria criteria;
 
@@ -45,9 +44,19 @@ public class SpecificationImpl<T> implements Specification<T> {
         } else if (criteria.getOperation().equalsIgnoreCase("#")){
             query.distinct(true);
             Expression<Collection<T>> users = root.join("userRoleDisciplines").get("role");
-            List<Role> roles = Arrays.stream(((String)criteria.getValue()).split(",")).map(Role::valueOf).collect(
-                Collectors.toList());
+            List<Role> roles = Arrays.stream(((String)criteria.getValue())
+                .split(","))
+                .map(Role::valueOf)
+                .collect(Collectors.toList());
             return users.in(roles);
+        } else if (criteria.getOperation().equalsIgnoreCase("!")){
+           if(criteria.getValue().equals("DESC")){
+               System.err.println("DESC");
+               query.orderBy(builder.desc(root.get(criteria.getKey())));
+           }else{
+               System.err.println("ASC");
+               query.orderBy(builder.asc(root.get(criteria.getKey())));
+           }
         }
         return null;
     }

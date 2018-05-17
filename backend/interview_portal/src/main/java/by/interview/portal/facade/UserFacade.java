@@ -17,7 +17,7 @@ public interface UserFacade {
 
     List<UserBaseInfoDTO> findAllByRole(Role role);
 
-    Set<UserBaseInfoDTO> findAllUserBaseInfo(Integer page, String searchParameters);
+    List<UserBaseInfoDTO> findAllUserBaseInfo(Integer page, String searchParameters);
 
     void delete(Long userId);
 

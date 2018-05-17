@@ -56,10 +56,10 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public Set<UserBaseInfoDTO> findAllUserBaseInfo(Integer page, String searchParameters) {
+    public List<UserBaseInfoDTO> findAllUserBaseInfo(Integer page, String searchParameters) {
         return userService.findAll(page, searchParameters).stream().filter(Objects::nonNull)
                 .map(userDTOConverter::convertToDTO).map(userDTO -> getUserBaseInfo(userDTO))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     @Override
