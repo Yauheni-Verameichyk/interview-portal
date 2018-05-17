@@ -1,5 +1,6 @@
 package by.interview.portal.service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -21,4 +22,6 @@ public interface DisciplineService {
     void deleteDiscipline(Long id);
 
     Set<DisciplineDTO> findWithParameters(String search);
+
+    void defineChildrenPresence(Collection<DisciplineDTO> disciplineDTOs);
 }

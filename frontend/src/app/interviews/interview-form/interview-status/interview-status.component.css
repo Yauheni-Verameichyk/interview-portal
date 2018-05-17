@@ -1,0 +1,9 @@
+.shadow {
+    border-radius: 3%;
+    box-shadow:0 0 5px rgba(80, 80, 80, 0.5);
+    padding: 5px;
+}
+
+.bold {
+    font-weight:bold;
+}

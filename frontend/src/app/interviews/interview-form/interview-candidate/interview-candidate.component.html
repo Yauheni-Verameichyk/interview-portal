@@ -1,6 +1,16 @@
 <span class="bold">Candidate:</span>
+<span *ngIf="!isNewInterview">{{selectedCandidate.name}} {{selectedCandidate.surname}}</span>
+<a *ngIf="!isNewInterview" data-toggle="collapse" href="#candidateCollapse" role="button" aria-expanded="false" aria-controls="candidateCollapse">
+  edit
+</a>
 <div [formGroup]="interviewForm">
-  <div formGroupName="candidate">
+  <div formGroupName="candidate" class="collapse" id="candidateCollapse" *ngIf="!isNewInterview">
+    <select class="form-control" formControlName="id" (change)="candidadeChange()">
+      <option value="" hidden disabled selected>Choose...</option>
+      <option *ngFor="let candidate of candidateList" value="{{candidate.id}}" selected>{{candidate.name}} {{candidate.surname}}</option>
+    </select>
+  </div>
+  <div formGroupName="candidate" *ngIf="isNewInterview">
     <select class="form-control" formControlName="id" (change)="candidadeChange()">
       <option value="" hidden disabled selected>Choose...</option>
       <option *ngFor="let candidate of candidateList" value="{{candidate.id}}" selected>{{candidate.name}} {{candidate.surname}}</option>

@@ -11,6 +11,11 @@ import { InterviewDisciplineComponent } from './interview-form/interview-discipl
 import { InterviewersComponent } from './interview-form/interviewers/interviewers.component'
 import { SharedModule } from '../shared/shared.module';
 import { InterviewResolvedGuard } from '../guard/interview-resolved.guard';
+import { InterviewStatusComponent } from './interview-form/interview-status/interview-status.component';
+import { InterviewFeedbackComponent } from './interview-form/interview-feedback/interview-feedback.component';
+import { InterviewMarksComponent } from './interview-form/interview-marks/interview-marks.component';
+import { InterviewMarkTreeComponent } from './interview-form/interview-marks/interview-mark-tree/interview-mark-tree.component';
+import { TreeModule } from 'angular-tree-component';
 
 @NgModule({
   imports: [
@@ -19,7 +24,8 @@ import { InterviewResolvedGuard } from '../guard/interview-resolved.guard';
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    SharedModule
+    SharedModule,
+    TreeModule
   ],
   declarations: [
     interviewsRouterComponent,
@@ -27,7 +33,11 @@ import { InterviewResolvedGuard } from '../guard/interview-resolved.guard';
     TimeIntervalComponent,
     InterviewCandidateComponent,
     InterviewDisciplineComponent,
-    InterviewersComponent
+    InterviewersComponent,
+    InterviewStatusComponent,
+    InterviewFeedbackComponent,
+    InterviewMarksComponent,
+    InterviewMarkTreeComponent
   ],
   providers: [
     InterviewControllerService,

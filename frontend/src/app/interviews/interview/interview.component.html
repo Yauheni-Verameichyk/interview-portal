@@ -1,7 +1,7 @@
 <td>
-    <i *ngIf="interview.status=='wait'" class="fa fa-hourglass-half text-info h3" aria-hidden="true"></i>
-    <i *ngIf="interview.status=='success'" class="fa fa-check-circle text-success h3" aria-hidden="true"></i>
-    <i *ngIf="interview.status=='fail'" class="fa fa-ban text-danger h3" aria-hidden="true"></i>
+    <i *ngIf="interview.status.name=='wait'" class="fa fa-hourglass-half text-info h3" aria-hidden="true"></i>
+    <i *ngIf="interview.status.name=='success'" class="fa fa-check-circle text-success h3" aria-hidden="true"></i>
+    <i *ngIf="interview.status.name=='fail'" class="fa fa-ban text-danger h3" aria-hidden="true"></i>
 </td>
 <td>
     <u [routerLink]="['', {outlets: { popup: ['candidate-view', interview.candidate.id] } }]">{{interview.candidate.name}}&nbsp;{{interview.candidate.surname}}</u>
@@ -19,11 +19,11 @@
 </td>
 <td>{{interview.place}}</td>
 <td class="td-btn">
-    <div class="btn btn-light pull-left" [routerLink]="['', {outlets: { popup: ['interview-view', interview.id]}}]">
+    <!-- <div class="btn btn-light pull-left" [routerLink]="['', {outlets: { popup: ['interview-view', interview.id]}}]">
         <img class="fas fa-eye align-middle">
-    </div>
+    </div> -->
     <div class="btn btn-light pull-left" [routerLink]="['', {outlets: { popup: ['interview-update', interview.id] }}]">
-        <img class="fas fa-pencil-alt align-middle">
+        <img class="fas fa-eye align-middle">
     </div>
     <div class="btn btn-light pull-left" (click)="removeInterview(interview.id)">
         <img class="far fa-trash-alt align-middle">

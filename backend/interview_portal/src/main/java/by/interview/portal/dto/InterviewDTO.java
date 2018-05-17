@@ -1,5 +1,6 @@
 package by.interview.portal.dto;
 
+import by.interview.portal.domain.InterviewStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,7 @@ public class InterviewDTO {
 
     private String place;
 
-    private String status;
+    private InterviewStatus status;
 
     private Set<UserBaseInfoDTO> interviewerSet;
 

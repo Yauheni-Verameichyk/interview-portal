@@ -1,0 +1,7 @@
+<tree-root class="expand-tree" [nodes]="disciplines" [options]="options">
+  <ng-template #treeNodeTemplate let-node let-index="index">
+    <span>{{ node.data.name }}</span>
+    <span class="mark">mark: </span>
+    <input class="mark-input" type="number" min="0" max="10" [(ngModel)]="node.data.mark">
+  </ng-template>
+</tree-root>

@@ -13,7 +13,9 @@ import { CandidateDTO } from '../../../api/models/candidate-dto';
 export class InterviewCandidateComponent implements OnInit, OnDestroy {
 
   @Input() interviewForm: FormGroup;
+  @Input() isNewInterview: boolean;
   @Output() disciplines =  new EventEmitter<DisciplineDTO[]>();
+  public selectedCandidate: CandidateDTO = new CandidateDTO();
   public candidateList: Array<CandidateDTO> = new Array<CandidateDTO>();
   private readonly destroy: Subject<void> = new Subject();
   
@@ -28,6 +30,7 @@ export class InterviewCandidateComponent implements OnInit, OnDestroy {
     this.candidateList.forEach(candidate => {
       if (candidate.id === +candidateId) {
         this.disciplines.emit(candidate.disciplineList);
+        this.selectedCandidate = candidate;
       }
     });
   }
@@ -43,6 +46,7 @@ export class InterviewCandidateComponent implements OnInit, OnDestroy {
         if (candidateList.length !== 0) {
           this.candidateList = this.candidateList.concat(candidateList);
           this.fetchCandidateList(this.candidateList.length);
+          this.candidadeChange();
         }
       }, error => console.log(`Error in candidates list component typy error: ${error}`));
   }

@@ -1,0 +1,10 @@
+<div *ngIf="!isNewInterview" [formGroup]="interviewForm">
+  <span class="bold">Mark: </span>
+  <span>{{interviewForm.controls.finalMark.value}}</span>
+  <a data-toggle="collapse" href="#finalMarkCollapse" role="button" aria-expanded="false" aria-controls="finalMarkCollapse">
+    edit
+  </a>
+  <div class="collapse" id="finalMarkCollapse">
+    <app-interview-mark-tree [interviewForm]="interviewForm"></app-interview-mark-tree>
+  </div>
+</div>
