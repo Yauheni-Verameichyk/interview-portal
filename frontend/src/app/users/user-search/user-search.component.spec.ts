@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserSearchComponent } from './user-search.component';
 import { UserControllerService } from '../../api/rest/service/user-controller.service';
+import { FormsModule } from '@angular/forms';
 const userControllerStub = {};
 
 describe('UserSearchComponent', () => {
@@ -13,7 +14,8 @@ describe('UserSearchComponent', () => {
       declarations: [ UserSearchComponent ],
       providers: [
         {provide: UserControllerService, useValue: userControllerStub}
-      ]
+      ],
+      imports: [FormsModule]
     })
     .compileComponents();
   }));
@@ -21,6 +23,7 @@ describe('UserSearchComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UserSearchComponent);
     component = fixture.componentInstance;
+    component.singleRole =  'user';
     fixture.detectChanges();
   });
 
