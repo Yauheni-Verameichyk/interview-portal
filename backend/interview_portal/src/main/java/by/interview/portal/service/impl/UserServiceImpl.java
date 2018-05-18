@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Set<User> findAllByRole(Role role) {
+    public List<User> findAllByRole(Role role) {
         return userRepository.findAllByRole(role);
     }
 
@@ -74,10 +74,8 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(userId);
     }
 
-    @Override public Set<User> findUserWithParameters(String searchParameters) {
-        return userRepository.findAll(SearchUtils.getSearchSpecifications(searchParameters))
-            .stream()
-            .collect(Collectors.toSet());
+    @Override public List<User> findUserWithParameters(String searchParameters) {
+        return userRepository.findAll(SearchUtils.getSearchSpecifications(searchParameters));
     }
 
     @Override

@@ -36,7 +36,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
 
     @EntityGraph(value = "User.userRoleDisciplines", type = EntityGraphType.LOAD)
     @Query("SELECT user FROM User user left join user.userRoleDisciplines urd where urd.role = :role")
-    Set<User> findAllByRole(@Param("role") Role role);
+    List<User> findAllByRole(@Param("role") Role role);
 
     @Query(" SELECT user FROM User user left join user.userRoleDisciplines urd where urd.role = :role and urd.discipline = :discipline")
     Set<User> findAllByRoleAndDiscipline(@Param("role") Role role,
