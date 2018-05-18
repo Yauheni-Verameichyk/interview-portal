@@ -11,7 +11,7 @@ import java.util.Set;
 
 public interface UserService {
 
-    Set<User> findAll(Integer quantity, String searchParameters);
+    List<User> findAll(Integer quantity, String searchParameters);
 
     void save(User user);
 
@@ -19,13 +19,11 @@ public interface UserService {
 
     @NonNull Optional<User> findUserByLogin(@NonNull String login);
 
-    Set<User> findAllByRole(Role role);
+    List<User> findAllByRole(Role role);
 
     void delete(Long userId);
 
-    Set<User> findUserWithParameters(String searchParameters);
+    List<User> findUserWithParameters(String searchParameters);
 
-    List<User> findByDisciplineAndTimeRange(LocalDateTime rangeStart, LocalDateTime rangeEnd,
-        Long disciplineId);
-        
+    List<User> findByDisciplineAndTimeRange(LocalDateTime rangeStart, LocalDateTime rangeEnd, Long disciplineId);
 }

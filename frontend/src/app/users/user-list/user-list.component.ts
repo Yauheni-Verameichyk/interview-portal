@@ -57,7 +57,11 @@ export class UserListComponent implements OnInit, OnDestroy {
       });
   }
   findByRole(searchParameters: string) {
+<<<<<<< HEAD
+    this.clearUserList();
+=======
     this.users = [];
+>>>>>>> 4bd26218c1b2928de21fe143102d4e897d82492b
     this.searchParameters = `userRoleDisciplines#${searchParameters}`;
     this.getUsersWithParams();
   }
