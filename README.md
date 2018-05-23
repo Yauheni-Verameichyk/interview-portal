@@ -37,14 +37,6 @@ statement of work
 
 
 
-Customers:        
-Yauhen Papko
- Fiodar Rukadzelnikau
-
-Developers:
-  Viktar Hrynko
-Yauheni Verameichyk
-Ilya Nikalayeu  
 Contents
 
 Description	2
